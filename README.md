@@ -16,7 +16,7 @@ You should see a bunch of accounts with their private keys. Copy the first priva
 
 Run "migrate" command in the same console.
 
-Open new console and run "npm start".
+Open new console cd client and run "npm start".
 
 Tasks remaining to do:
 
