@@ -10,7 +10,7 @@ Ganache Cli - https://www.npmjs.com/package/ganache-cli
 
 Steps to execute:
 
-Open console and run "truffle develop" command.
+Open Truffle folder then open console and run "truffle develop" command.
 
 You should see a bunch of accounts with their private keys. Copy the first private key and go to metamask settings and click on import account and paste it. (Do the same for later keys when additional accounts needed.).
 
