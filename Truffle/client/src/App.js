@@ -270,9 +270,7 @@ carowners = async() => {
 
 
 
-        
-
-
+      
         <ul><h2>Owner History Look up</h2></ul>
         <strong><h3>Car owners history</h3></strong>
         Enter Car Id: <input type="text" name="carid" value={this.state.carid} onChange={this.typinginput} />
@@ -280,16 +278,16 @@ carowners = async() => {
         All of the Car owners are {this.state.carownerhistory ? this.state.carownerhistory.map(eachOwner => {
           return(<div><li>{eachOwner}</li></div>)
         }):null};
-        <strong><h3>Engine owners history</h3></strong>
+        <strong><h3>Engine tracing</h3></strong>
         Enter Engine Id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.engineowners}>Get Engine Owners history</button>
+        <button type="button" onClick ={this.engineowners}>Verify Engine source</button>
         All of the engine owners are {this.state.engineownerhistory ? this.state.engineownerhistory.map(eachOwner => {
           return(<div><li>{eachOwner}</li></div>)
         }):null};
 
-        <strong><h3>Battery owners history</h3></strong>
+        <strong><h3>Battery tracing</h3></strong>
         Enter Battery Id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.batteryowners}>Get Battery Owners history</button>
+        <button type="button" onClick ={this.batteryowners}>Verify Battery Source</button>
         All of the battery owners are {this.state.batteryownerhistory ? this.state.batteryownerhistory.map(eachOwner => {
           return(<div><li>{eachOwner}</li></div>)
         }):null};
