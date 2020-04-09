@@ -171,7 +171,17 @@ buycar = async() => {
   // console.log("buy engine object is", buyengineobject);
 }
 
-
+carowners = async() => {
+  const {carid} = this.state;
+  console.log("hello");
+  const owners = await this.contractinstance.methods.carownershistory(carid).call().then(result => {console.log(result);
+  return result;
+});
+  console.log(owners);
+  this.setState({carownerhistory: owners});
+  
+  // alert("Call successful");
+}
 
 //   contract.functionName.sendTransaction(parameter_1,parameter_2,parameter_n,{{from:web3.eth.accounts[X], value:xyz}},function (error, result){   if(!error){
 //     console.log(result);
@@ -198,53 +208,53 @@ buycar = async() => {
     }
     return (
       <div className="App">
-        <h1>Item Authenticity Project CMPE 295B</h1>
-        <h2>Manufacturer Dashboard</h2>
-        <h3>Create Engine</h3>
+        <h1>Car parts verification and tracing Project CMPE 295B</h1>
+        <ul><h2>Manufacturer Dashboard</h2></ul>
+        <strong><h3>Create Engine</h3></strong>
         Engine Name : <input type="text" name="enginename" value={this.state.enginename} onChange={this.typinginput} />
         Engine Price (Wei) : <input type="text" name="engineprice" value={this.state.engineprice} onChange={this.typinginput} />
         Engine Quantity: <input type="text" name="enginequantity" value={this.state.enginequantity} onChange={this.typinginput} />
         Engine id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
         <button type="button" onClick ={this.manufactureengine}>Manufacture Engine</button>
 
-        <h3>Deliver Engine</h3>
+        <strong><h3>Deliver Engine</h3></strong>
         Engine id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
         <button type="button" onClick ={this.deliverengine}>Deliver Engine</button>
 
-        <h3>Create Battery</h3>
+        <strong><h3>Create Battery</h3></strong>
         Battery Name : <input type="text" name="batteryname" value={this.state.batteryname} onChange={this.typinginput} />
         Battery Price (Wei) : <input type="text" name="batteryprice" value={this.state.batteryprice} onChange={this.typinginput} />
         Battery Quantity: <input type="text" name="batteryquantity" value={this.state.batteryquantity} onChange={this.typinginput} />
         Battery id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
         <button type="button" onClick ={this.manufacturebattery}>Manufacture Battery</button>
 
-        <h3>Deliver Battery</h3>
+        <strong><h3>Deliver Battery</h3></strong>
         Battery id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
         <button type="button" onClick ={this.deliverbattery}>Deliver Battery</button>
 
         <br></br>
 
-        <h2>Assembler Dashboard</h2>
-        <h3>Buy Engine</h3>
+        <ul><h2>Assembler Dashboard</h2></ul>
+        <strong><h3>Buy Engine</h3></strong>
         Enter Engine Id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
         Enter price in wei: <input type="text" name="engineprice" value={this.state.engineprice} onChange={this.typinginput} />
         <button type="button" onClick ={this.buyengine}>Buy Engine</button>
 
-        <h3>Received Engine</h3>
+        <strong><h3>Received Engine</h3></strong>
         Engine id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
         <button type="button" onClick ={this.receiveengine}>Received Engine</button>
 
-        <h3>Buy Battery</h3>
+        <strong><h3>Buy Battery</h3></strong>
         Enter Battery Id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
         Enter price in wei: <input type="text" name="batteryprice" value={this.state.batteryprice} onChange={this.typinginput} />
         <button type="button" onClick ={this.buybattery}>Buy Battery</button>
 
-        <h3>Received Battery</h3>
+        <strong><h3>Received Battery</h3></strong>
         Battery id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
         <button type="button" onClick ={this.receivebattery}>Received Battery</button>
 
-        <h2>Engine and battery mapping with Car</h2>
-        <h3>Register Car</h3>
+        <ul><h2>Engine and battery mapping with Car</h2></ul>
+        <strong><h3>Register Car</h3></strong>
         car Name : <input type="text" name="carname" value={this.state.carname} onChange={this.typinginput} />
         Car Model : <input type="text" name="carmodel" value={this.state.carmodel} onChange={this.typinginput} />
         Car Price (Wei) : <input type="text" name="carprice" value={this.state.carprice} onChange={this.typinginput} />
@@ -253,7 +263,7 @@ buycar = async() => {
         Battery id to install: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
         <button type="button" onClick ={this.registercar}>Register Car</button>
 
-        <h3>Buy Car</h3>
+        <strong><h3>Buy Car</h3></strong>
         Enter Car Id: <input type="text" name="carid" value={this.state.carid} onChange={this.typinginput} />
         Enter price in wei: <input type="text" name="carprice" value={this.state.carprice} onChange={this.typinginput} />
         <button type="button" onClick ={this.buycar}>Buy Car</button>
@@ -263,15 +273,21 @@ buycar = async() => {
         
 
 
-        <h2>Owner History Look up</h2>
-        <h3>Engine owners history</h3>
+        <ul><h2>Owner History Look up</h2></ul>
+        <strong><h3>Car owners history</h3></strong>
+        Enter Car Id: <input type="text" name="carid" value={this.state.carid} onChange={this.typinginput} />
+        <button type="button" onClick ={this.carowners}>Get Car Owners history</button>
+        All of the Car owners are {this.state.carownerhistory ? this.state.carownerhistory.map(eachOwner => {
+          return(<div><li>{eachOwner}</li></div>)
+        }):null};
+        <strong><h3>Engine owners history</h3></strong>
         Enter Engine Id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
         <button type="button" onClick ={this.engineowners}>Get Engine Owners history</button>
         All of the engine owners are {this.state.engineownerhistory ? this.state.engineownerhistory.map(eachOwner => {
           return(<div><li>{eachOwner}</li></div>)
         }):null};
 
-        <h3>Battery owners history</h3>
+        <strong><h3>Battery owners history</h3></strong>
         Enter Battery Id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
         <button type="button" onClick ={this.batteryowners}>Get Battery Owners history</button>
         All of the battery owners are {this.state.batteryownerhistory ? this.state.batteryownerhistory.map(eachOwner => {
