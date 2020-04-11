@@ -69,6 +69,8 @@ function checkengine(id){
         console.log("Your engine does not require service in the next 6 months")
     }
 
+    console.log("This is from the check engine id function.")
+
 }
 
 function updateCarInfoById(updateParam,carId){
@@ -77,24 +79,40 @@ function updateCarInfoById(updateParam,carId){
                 console.log(data)
             }
             else{
-                console.log("update succesful" , data);
+                console.log("update succesful", data);
                 return true;
             }
         })
 }
 
+function checkcarhealth(data){
+    console.log("entered car health function");
+    console.log("this is data from car functin", data);
+    if(data.EngineServiceNeeded == true){
+        update ={CarServiceNeeded: true}
+        updateCarInfoById(update, data._id);
+        console.log("this is from the car health function")
+    }
+}
+
 app.post("/calculatecarhealth", (req,res)=>{
     identered = req.body.id; 
     console.log("identered", identered);
-    Car.findOne({CarId: identered},function(err, cardata){
+    Car.findOne({CarId: identered},async function(err, cardata){
         if(err){
             console.log(err);
         }else{
             console.log(cardata);
-            if(cardata!=null)
-                checkengine(cardata);
+            if(cardata!=null){
+                await checkengine(cardata);
+                await checkcarhealth(cardata);
+                res.redirect("/");
+            }
             else
-            res.redirect("/");
+            {
+                console.log("in else");
+                res.redirect("/");
+            }
         }
     })
 
@@ -105,7 +123,7 @@ app.get("/car", function(req,res){
         if(err){
             console.log(err);
         }else{
-            console.log(cardata.EngineServiceNeeded)
+            console.log(cardata.EngineServiceNeeded, cardata.CarServiceNeeded);
         }
     })
     
