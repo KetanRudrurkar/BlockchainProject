@@ -9,13 +9,25 @@
 </head>
 <body>
 
-<button class="tablink" onclick="openPage('Service', this, 'red'); LoadCarData('<%=cardata%>');" id="defaultOpen">Service</button>
+<button class="tablink" onclick="openPage('Service', this, 'red'); " id="defaultOpen">Service</button>
 <button class="tablink" onclick="openPage('About', this, 'green')">About</button>
-
 
 <div id="Service" class="tabcontent">
   <div class="container">  
-    <div class="table-responsive"> 
+    <form action="/calculatecarhealth" method="POST">
+      <div>
+    <label><strong>Enter Car VIN: </strong></label>
+    <input type="text" name="id">
+  </div>
+  <div>
+    <button class="btn btn-primary">Check Car Health</button>
+  </div>
+    </form>
+    <br>
+    <br>
+    <br>
+
+        <div class="table-responsive"> 
       <h2>CAR DETAILS</h2>
     <table class="table table-bordered table-striped" id="carTable">
       <tr>
@@ -37,6 +49,8 @@
       </tr>
       </table>
     </div>
+    <button class= "btn btn-primary" onclick="LoadCarData('<%=cardata%>');">Show Car Details</button>
+
     </div>
 </div>
 

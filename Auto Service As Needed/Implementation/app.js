@@ -22,20 +22,84 @@ app.get("/", (req,res)=>{
             console.log(err);
         }else{
             data = JSON.stringify(cardata);
+
             res.render("index", {cardata:data});
         }
     })
 })
 
-function calculateenginehealth(){
+function checkengine(id){
+    var servicerecommendedindays = 180;
+    var servicerecommendedinmiles = 7500;
+    var enginedaysscore = 10 - ((id.DaysSinceEngineLastService*10)/servicerecommendedindays);
+    console.log("engine age rating is", enginedaysscore);
+    var enginemilesscore = 10 - ((id.MilesBetweenServices*10)/servicerecommendedinmiles);
+    console.log("engine miles rating is", enginemilesscore);
+    var averagespeed = id.averagespeed;
+    var averagespeedscore;
+    if(averagespeed>=60 && averagespeed<=70){
+        averagespeedscore = 10
+    }
+    else if(averagespeed>=30 && averagespeed<60){
+        averagespeedscore = 8
+    }
+    else if(averagespeed>70 && averagespeed<100){
+        averagespeedscore= 5
+    }
+    else{
+        averagespeedscore = 2
+    }
+
+    var totalenginescore = ((enginedaysscore + enginemilesscore + averagespeedscore)/30)*100;
+    console.log("The total engine score evaluated is", totalenginescore);
+    if (totalenginescore<40){
+        console.log("Your Engine requires Service within the next 15 days");
+        update = {EngineServiceNeeded: true}
+        Car.findByIdAndUpdate(id.CarId, update, function(err,updated){
+            if(err){
+                console.log(update)
+                // alert("Error in updating")
+            }
+            else{
+                console.log("update succesful" , update);
+            }
+        })
+
+    }
+   else if(totalenginescore>=40 && totalenginescore<=70){
+        console.log("The car health is good currently but you might need a service in the coming 3 months")
+    }
+    else if(totalenginescore<0){
+        console.log("The Engine needs service immediately");
+    }
+
+    else{
+        console.log("Your engine does not require service in the next 6 months")
+    }
+
 }
+
+app.post("/calculatecarhealth", (req,res)=>{
+    identered = req.body.id; 
+    console.log("identered", identered);
+    Car.findOne({CarId: identered},function(err, cardata){
+        if(err){
+            console.log(err);
+        }else{
+            console.log(cardata);
+            checkengine(cardata);
+            res.redirect("/");
+        }
+    })
+
+})
 
 app.get("/car", function(req,res){
     Car.findOne({CarId: 0},function(err, cardata){
         if(err){
             console.log(err);
         }else{
-            console.log(cardata.EngineDaysOld)
+            console.log(cardata.EngineServiceNeeded)
         }
     })
     

@@ -2,6 +2,7 @@ var mongoose= require("mongoose");
 var cardbschema = new mongoose.Schema({
     CarId: Number,
     MilesTraveled: Number,
+    AverageSpeed: Number,
     CarLifeSpaninYears: Number,
     LastServiceDate: Date,
     MilesDuringLastService: Number,

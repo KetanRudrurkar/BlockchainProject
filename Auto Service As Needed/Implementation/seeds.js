@@ -5,6 +5,7 @@ var data = [
     {
         CarId: 0,
         MilesTraveled: 7400, //will be an input
+        AverageSpeed: 68,
         CarLifeSpaninYears: 10, //will be recomnnended by the manufacturer
         LastServiceDate: '2019-12-09',
         MilesDuringLastService: 0,
@@ -14,7 +15,7 @@ var data = [
         EngineLifeSpaninYears: 10,
         EngineLifeSpaninPercentage: 100, //Recommend when to get it changed
         EngineDaysOld: 300,
-        DaysSinceEngineLastService: 300,
+        DaysSinceEngineLastService: 170,
         EngineServiceNeeded: false,
         CarServiceNeeded: false,
         Serviced: false
