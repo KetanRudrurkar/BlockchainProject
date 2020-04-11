@@ -53,18 +53,10 @@ function checkengine(id){
     var totalenginescore = ((enginedaysscore + enginemilesscore + averagespeedscore)/30)*100;
     console.log("The total engine score evaluated is", totalenginescore);
     if (totalenginescore<40){
+        //debugger;
+        updateParam = {EngineServiceNeeded: true}
+        if(updateCarInfoById(updateParam, id._id)) 
         console.log("Your Engine requires Service within the next 15 days");
-        update = {EngineServiceNeeded: true}
-        Car.findByIdAndUpdate(id.CarId, update, function(err,updated){
-            if(err){
-                console.log(update)
-                // alert("Error in updating")
-            }
-            else{
-                console.log("update succesful" , update);
-            }
-        })
-
     }
    else if(totalenginescore>=40 && totalenginescore<=70){
         console.log("The car health is good currently but you might need a service in the coming 3 months")
@@ -79,6 +71,18 @@ function checkengine(id){
 
 }
 
+function updateCarInfoById(updateParam,carId){
+        Car.findByIdAndUpdate({_id: carId}, updateParam, function(err,data){
+            if(err){
+                console.log(data)
+            }
+            else{
+                console.log("update succesful" , data);
+                return true;
+            }
+        })
+}
+
 app.post("/calculatecarhealth", (req,res)=>{
     identered = req.body.id; 
     console.log("identered", identered);
@@ -87,7 +91,9 @@ app.post("/calculatecarhealth", (req,res)=>{
             console.log(err);
         }else{
             console.log(cardata);
-            checkengine(cardata);
+            if(cardata!=null)
+                checkengine(cardata);
+            else
             res.redirect("/");
         }
     })
