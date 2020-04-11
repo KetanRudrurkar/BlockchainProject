@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="../../css/styles.css">
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+
+<button class="tablink" onclick="openPage('Service', this, 'red'); LoadCarData('<%=cardata%>');" id="defaultOpen">Service</button>
+<button class="tablink" onclick="openPage('About', this, 'green')">About</button>
+
+
+<div id="Service" class="tabcontent">
+  <div class="container">  
+    <div class="table-responsive"> 
+      <h2>CAR DETAILS</h2>
+    <table class="table table-bordered table-striped" id="carTable">
+      <tr>
+        <th>CarId</th>
+        <th>MilesTraveled</th>
+        <th>CarLifeSpaninYears</th>
+        <th>LastServiceDate</th>
+        <th>MilesDuringLastService</th>
+        <th>MilesBetweenServices</th>
+        <th>EngineId</th>
+        <th>EngineManufactureDate</th>
+        <th>EngineLifeSpaninYears</th>
+        <th>EngineLifeSpaninPercentage</th>
+        <th>EngineDaysOld</th>
+        <th>DaysSinceEngineLastService</th>
+        <th>EngineServiceNeeded</th>
+        <th>CarServiceNeeded</th>
+        <th>Serviced</th>
+      </tr>
+      </table>
+    </div>
+    </div>
+</div>
+
+<div id="About" class="tabcontent">
+  <p>Who we are and what we do.</p>
+</div>
+
+<script src="./js/main.js"></script>
+<script>
+      function LoadCarData(cardata){
+        debugger;
+        cardata = JSON.parse(cardata);
+        $.each(cardata, function(key,value){
+        var tableHtml  = '<tr>';
+            tableHtml += '<td>'+value.CarId+'</td>';
+            tableHtml += '<td>'+value.MilesTraveled+'</td>';
+            tableHtml += '<td>'+value.CarLifeSpaninYears+'</td>';
+            tableHtml += '<td>'+value.LastServiceDate+'</td>';
+            tableHtml += '<td>'+value.MilesDuringLastService+'</td>';
+            tableHtml += '<td>'+value.MilesBetweenServices+'</td>';
+            tableHtml += '<td>'+value.EngineId+'</td>';
+            tableHtml += '<td>'+value.EngineManufactureDate+'</td>';
+            tableHtml += '<td>'+value.EngineLifeSpaninYears+'</td>';
+            tableHtml += '<td>'+value.EngineLifeSpaninPercentage+'</td>';
+            tableHtml += '<td>'+value.EngineDaysOld+'</td>';
+            tableHtml += '<td>'+value.DaysSinceEngineLastService+'</td>';
+            tableHtml += '<td>'+value.EngineServiceNeeded+'</td>';
+            tableHtml += '<td>'+value.CarServiceNeeded+'</td>';
+            tableHtml += '<td>'+value.Serviced+'</td>';
+            tableHtml += '</tr>';
+            $("#carTable").append(tableHtml);
+        });
+    }
+
+function openPage(pageName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(pageName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+   
+</body>
+</html> 
