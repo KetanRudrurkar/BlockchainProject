@@ -28,7 +28,7 @@ app.get("/", (req,res)=>{
     })
 })
 
-function checkengine(id){
+async function checkengine(id){
     var servicerecommendedindays = 180;
     var servicerecommendedinmiles = 7500;
     var enginedaysscore = 10 - ((id.DaysSinceEngineLastService*10)/servicerecommendedindays);
@@ -55,8 +55,9 @@ function checkengine(id){
     if (totalenginescore<40){
         //debugger;
         updateParam = {EngineServiceNeeded: true}
-        if(updateCarInfoById(updateParam, id._id)) 
-        console.log("Your Engine requires Service within the next 15 days");
+        needUpdate = await updateCarInfoById(updateParam, id._id)
+        if(needUpdate) 
+            console.log("Your Engine requires Service within the next 15 days");
     }
    else if(totalenginescore>=40 && totalenginescore<=70){
         console.log("The car health is good currently but you might need a service in the coming 3 months")
@@ -73,8 +74,8 @@ function checkengine(id){
 
 }
 
-function updateCarInfoById(updateParam,carId){
-        Car.findByIdAndUpdate({_id: carId}, updateParam, function(err,data){
+async function updateCarInfoById(updateParam,carId){
+        await Car.findByIdAndUpdate({_id: carId}, updateParam, function(err,data){
             if(err){
                 console.log(data)
             }
@@ -85,34 +86,40 @@ function updateCarInfoById(updateParam,carId){
         })
 }
 
-function checkcarhealth(data){
+async function checkcarhealth(data){
     console.log("entered car health function");
     console.log("this is data from car functin", data);
     if(data.EngineServiceNeeded == true){
         update ={CarServiceNeeded: true}
-        updateCarInfoById(update, data._id);
+        await updateCarInfoById(update, data._id);
         console.log("this is from the car health function")
+    }
+    else{
+        console.log("In car health else")
     }
 }
 
-app.post("/calculatecarhealth", (req,res)=>{
+app.post("/calculatecarhealth", async (req,res)=>{
     identered = req.body.id; 
     console.log("identered", identered);
-    Car.findOne({CarId: identered},async function(err, cardata){
+    await Car.findOne({CarId: identered},async function(err, cardata){
         if(err){
             console.log(err);
         }else{
             console.log(cardata);
             if(cardata!=null){
                 await checkengine(cardata);
-                await checkcarhealth(cardata);
-                res.redirect("/");
+                const updateCarData = await Car.findOne({CarId: identered});   
+                await checkcarhealth(updateCarData);
+                res.render("results", cardata: updateCarData);
+                // res.redirect("/");
             }
             else
             {
                 console.log("in else");
                 res.redirect("/");
             }
+            
         }
     })
 
