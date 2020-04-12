@@ -22,8 +22,10 @@
   <div>
     <button class="btn btn-primary">Check Car Health</button>
   </div>
+  <h2>hello from results!</h2>
     </form>
-    <%if(cardata.CarServiceNeeded == true){%>
+    <%=cardata%>
+    <%if(cardata.CarServiceNeeded){%>
       <h3>Service is recommended for your car for the below parts in the next 15 days</h3>
       <p>Your car needs service for the following parts:</p>
     <%}%>

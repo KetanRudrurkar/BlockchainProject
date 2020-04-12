@@ -111,7 +111,7 @@ app.post("/calculatecarhealth", async (req,res)=>{
                 await checkengine(cardata);
                 const updateCarData = await Car.findOne({CarId: identered});   
                 await checkcarhealth(updateCarData);
-                res.render("results", cardata: updateCarData);
+                res.render("results", {cardata: updateCarData});
                 // res.redirect("/");
             }
             else
