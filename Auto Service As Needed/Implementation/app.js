@@ -109,9 +109,11 @@ app.post("/calculatecarhealth", async (req,res)=>{
             console.log(cardata);
             if(cardata!=null){
                 await checkengine(cardata);
-                const updateCarData = await Car.findOne({CarId: identered});   
+                const updateCarData = await Car.findOne({CarId: identered});
+                console.log(updateCarData);
                 await checkcarhealth(updateCarData);
-                res.render("results", {cardata: updateCarData});
+                const finalData = await Car.findOne({CarId: identered});
+                res.render("results", {cardata: finalData});
                 // res.redirect("/");
             }
             else
