@@ -11,6 +11,8 @@ mongoose.connect("mongodb://localhost/carapp", { useNewUrlParser: true });
 
 seed();
 
+allparts = ["Engine", "Air Filter", "Fuel Filter", "brake fluid", "brake pads/shoes", "brake roters", "coolant", "Transmission fluid", "Gear box", "Clutch plate", "hoses", "Power Steering fluid", "Engine Spark Plug", "Timing belt" ]
+
 app.use(bodyparser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -45,7 +47,7 @@ async function checkengine(id) {
     console.log("The total engine score evaluated is", totalenginescore);
     if (totalenginescore < 40) {
         //debugger;
-        updateParam = { EngineServiceNeeded: true }
+        updateParam = { EngineServiceNeeded: true, Serviced: false }
         needUpdate = await updateCarInfoById(updateParam, id._id)
         if (needUpdate)
             console.log("Your Engine requires Service within the next 15 days");
@@ -81,7 +83,7 @@ async function checkcarhealth(data) {
     console.log("entered car health function");
     console.log("this is data from car functin", data);
     if (data.EngineServiceNeeded == true) {
-        update = { CarServiceNeeded: true }
+        update = { CarServiceNeeded: true, Serviced: false }
         await updateCarInfoById(update, data._id);
         console.log("this is from the car health function")
     }
@@ -101,16 +103,49 @@ app.post("/calculatecarhealth", async (req, res) => {
         } else {
             console.log(cardata);
             if (cardata != null) {
-                await checkengine(cardata);
-                const updateCarData = await Car.findOne({ CarId: identered });
-                console.log(updateCarData);
-                await checkcarhealth(updateCarData);
-                const finalData = await Car.findOne({ CarId: identered });
-                res.render("index", { cardata: JSON.stringify({ cardata: finalData }), singleData: finalData, message: "" });
+                if(cardata.Serviced){
+                    res.render("index", {cardata: JSON.stringify({ cardata: cardata }),singleData: cardata, message: ""} );
+                }
+                else{
+                    await checkengine(cardata);
+                    const updateCarData = await Car.findOne({ CarId: identered });
+                    console.log(updateCarData);
+                    await checkcarhealth(updateCarData);
+                    const finalData = await Car.findOne({ CarId: identered });
+                    res.render("index", { cardata: JSON.stringify({ cardata: finalData }), singleData: finalData, message: "" });
+                }
             }
             else {
                 console.log("in else");
                 res.render("index", { cardata: null, singleData: null, message: "No Data found for input VIN Number" });
+            }
+
+        }
+    })
+}
+})
+
+app.post("/servicecompleted", async (req, res) => {
+    identered = req.body.id;
+    if(identered != "")
+    {
+    console.log("identered", identered);
+    await Car.findOne({ CarId: identered }, async function (err, cardata) {
+        if (err) {
+            console.log(err);
+        } 
+        else {
+            console.log(cardata);
+            if (cardata != null && cardata.Serviced == false) {
+                update = {EngineServiceNeeded: false, CarServiceNeeded: false, Serviced: true}
+                await updateCarInfoById(update, cardata._id);
+                const updateCarData = await Car.findOne({ CarId: identered });
+                console.log("service data shoyld be", updateCarData);
+                res.render("serviceneeded", { cardata: null,singleData: updateCarData, message: "" });
+            }
+            else {
+                console.log("in else");
+                res.render("serviceneeded   ", { singleData: null,cardata: null, message: "No Data found for input VIN Number" });
             }
 
         }
@@ -121,17 +156,6 @@ else{
 }
 })
 
-app.get("/car", function (req, res) {
-    Car.findOne({ CarId: 0 }, function (err, cardata) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(cardata.EngineServiceNeeded, cardata.CarServiceNeeded);
-        }
-    })
-
-})
-
-app.listen(3000, () => {
+app.listen(3000, function(){
     console.log("Server listening at port 3000");
 })

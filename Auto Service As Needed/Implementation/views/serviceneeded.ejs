@@ -42,11 +42,8 @@
       <%if(singleData.EngineServiceNeeded){%>
       <span>Engine</span> 
       <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-      <%}%> 
-      <%}else{%>
-        <h4>Your car is healthy:</h4>
       <%}%>
-
+    <%}%>
         <br>
         <br>
 
@@ -98,12 +95,9 @@
       <h3>Car with Vin <%=singleData.CarId%> has been serviced and updated with its current condition.</h3>
       <p>Your car health:</p>
       <%allparts.forEach(function(part){%>
-        <div class="col-md-3 col-sm-6">
         <span><%=part%></span> 
-        <i class="fas fa-clipboard-check"></i>
+        <i class="fas fa-clipboard-check" style="font-size:20px; color: green; margin-top: 4px;"></i>
         <%})%>
-      </div>
-      
       <%}%>
     <%}%>
 
