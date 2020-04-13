@@ -10,160 +10,35 @@
     crossorigin="anonymous"></script>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
 
   <button class="tablink" onclick="openPage('Service', this, 'red'); " id="defaultOpen">User</button>
-  <button class="tablink" onclick="openPage('About', this, 'green')">Service Point</button>
+  <!-- <button class="tablink" onclick="openPage('About', this, 'green')">Service Point</button> -->
 
   <div id="Service" class="tabcontent">
     <div class="container">
-      <form id="searchVIN" action="/calculatecarhealth" method="POST">
+
+      <div class="car_form" id="searchVIN">
         <div>
           <label><strong>Enter Car VIN: </strong></label>
           <input type="number" name="id" id="input_VIN" required="">
         </div>
         <div>
-          <button class="btn btn-primary">Check Car Health</button>
+          <button class="btn btn-primary" onclick="searchVIN()">Check Car Health</button>
           <button class="btn btn-primary" onclick="ClearForm()">Clear</button>
         </div>
         <br>
-        <%if(message){%>   
-          <span style="color: red;"><%=message%></span>
-          <%}%>
-      </form>
-      <div class="container">
-        
-      <%if(singleData){%>
-      <%if(singleData.CarServiceNeeded){%>
-      <h3>Service is recommended for your car for the below parts in the next 15 days</h3>
-      <p>Your car needs service for the following parts:</p>
-      <br>
-      <%if(singleData.EngineServiceNeeded){%>
-        <div class="row">
-        <div class="col-md-3 col-sm-6">
-      <span><strong>Engine</strong></span> 
-      <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-        </div>
-      <%}%>
-      <%if(singleData.AirFilterServiceNeeded){%>
-        <div class="col-md-3 col-sm-6">
-        <span>Air Filter</span> 
-        <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
+        <span id="error_message" style="color: red;"></span>
       </div>
-        <%}%> 
-        <%if(singleData.FuelFilterServiceNeeded){%>
-          <div class="col-md-3 col-sm-6">
 
-            <span>Fuel Filter</span> 
-            <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-          </div>
-          <%}%> 
-          <%if(singleData.BrakeFluidServiceNeeded){%>
-            <div class="col-md-3 col-sm-6">
-
-              <span>Brake Fluid</span> 
-              <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-            </div>
-            <%}%> 
-            <%if(singleData.BrakePadServiceNeeded){%>
-              <div class="col-md-3 col-sm-6">
-
-                <span>Brake Pads</span> 
-                <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-              </div>
-              <%}%> 
-              <%if(singleData.BrakeRotersServiceNeeded){%>
-                <div class="col-md-3 col-sm-6">
-
-                  <span>Brake Roters</span> 
-                  <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                </div>
-                <%}%> 
-                <%if(singleData.CoolantServiceNeeded){%>
-                  <div class="col-md-3 col-sm-6">
-
-                    <span>Coolant</span> 
-                    <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                  </div>
-                  <%}%> 
-                  <%if(singleData.TransmissionFluidServiceNeeded){%>
-                    <div class="col-md-3 col-sm-6">
-
-                      <span>Transmission Fluid</span> 
-                      <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                    </div>
-                    <%}%> 
-                    <%if(singleData.GearBoxServiceNeeded){%>
-                      <div class="col-md-3 col-sm-6">
-
-                        <span>Gear Box</span> 
-                        <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                      </div>
-                      <%}%> 
-                      <%if(singleData.ClutchPlateServiceNeeded){%>
-                        <div class="col-md-3 col-sm-6">
-
-                          <span>Clutch Plates</span> 
-                          <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                        </div>
-                        <%}%> 
-                        <%if(singleData.HosesServiceNeeded){%>
-                          <div class="col-md-3 col-sm-6">
-
-                            <span>Hoses</span> 
-                            <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                          </div>
-                          <%}%> 
-                          <%if(singleData.PowerSteeringServiceNeeded){%>
-                            <div class="col-md-3 col-sm-6">
-
-                              <span>Power Steering</span> 
-                              <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                            </div>
-                            <%}%> 
-                            <%if(singleData.EngineSparkPlugServiceNeeded){%>
-                              <div class="col-md-3 col-sm-6">
-
-                                <span>Engine Spark Plug</span> 
-                                <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                              </div>
-                              <%}%> 
-                              <%if(singleData.TimingBeltServiceNeeded){%>
-                                <div class="col-md-3 col-sm-6">
-
-                                  <span>Timing Belt</span> 
-                                  <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                                </div>
-                                <%}%> 
-                                <%if(singleData.CabelServiceNeeded){%>
-                                  <div class="col-md-3 col-sm-6">
-                                    <span>Cabel</span> 
-                                    <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                                  </div>
-                                  <%}%> 
-                                  <%if(singleData.BatteryServiceNeeded){%>
-                                    <div class="col-md-3 col-sm-6">
-
-                                      <span>Battery</span> 
-                                      <i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i> 
-                                    </div>
-                                    <%}%> 
-
-      <%}else{%>
-        <h4>Your car is healthy:</h4>
-      <%}%>
-    </div>
-  </div>
-        <br>
-        <br>
-
-      <div class="table-responsive">
+      <div class="table-responsive" id="carTable">
         <h2>CAR DETAILS</h2>
-        <table class="table table-bordered table-striped" id="carTable">
+        <table class="table table-bordered table-striped">
           <tr>
             <th>CarId</th>
             <th>MilesTraveled</th>
@@ -175,7 +50,7 @@
             <th>EngineId</th>
             <th>EngineManufactureDate</th>
             <th>EngineLifeSpaninYears</th>
-            <th>EngineLifeSpaninPercentage</th> 
+            <th>EngineLifeSpaninPercentage</th>
             <th>DaysSinceEngineLastService</th>
             <th>EngineDaysOld</th>
             <th>AirFilterDaysOld</th>
@@ -187,7 +62,7 @@
             <th>TransmissionFluidDaysOld</th>
             <th>TransmissionFluidTemperature</th>
             <th>BatteryTemperature</th>
-            <th>EngineSparkPlugType</th> 
+            <th>EngineSparkPlugType</th>
             <th>CableMilesUsed</th>
             <th>TimingBeltMilesUsed</th>
             <th>EngineSparkPlugMilesUsed</th>
@@ -218,47 +93,19 @@
             <th>Serviced</th>
 
           </tr>
+          <tbody id="carTbody"></tbody>
         </table>
       </div>
-      <%}%>
-      <input id="cardataInput" value="<%=cardata%>" hidden />
+
+      <div class="car_condition" id="carCondition">
+        <span id="condition_message"></span>
+        <div id="condition_cases"></div>
+      </div>
 
     </div>
   </div>
 
-  <div id="About" class="tabcontent">
-    <form id="searchVIN" action="/servicecompleted" method="POST">
-      <div>
-        <label><strong>Enter Car VIN: </strong></label>
-        <input type="number" name="id" id="input_VIN" required="">
-      </div>
-      <div>
-        <button class="btn btn-primary">Service Completed</button>
-        <button class="btn btn-primary" onclick="ClearForm()">Clear</button>
-      </div>
-      <br>
-      <%if(message){%>   
-        <span style="color: red;"><%=message%></span>
-        <%}%>
-    </form>
-    <%if(singleData){%>
-      <%if(singleData.CarServiceNeeded == false){%>
-      <h3>Car with Vin <%=singleData.CarId%> has been serviced and updated with its current condition.</h3>
-      <p>Your car health:</p>
-      <%allparts.forEach(function(part){%>
-        <div class="col-md-3 col-sm-6">
-        <span><%=part%></span> 
-        <i class="fas fa-clipboard-check"></i>
-      </div>
-        <%})%>
-      
-      
-      <%}%>
-    <%}%>
-
-  </div>
-
-  <script src="./js/main.js"></script>
+<script src="./js/main.js"></script>
 </body>
 
 </html>

@@ -348,6 +348,8 @@ async function postServiceUpdateInfo(carId) {
 }
 
 app.post("/calculatecarhealth", async (req, res) => {
+    console.log("Ajax call");
+    console.log(req.body);
     identered = req.body.id;
     if(identered != "")
     {
@@ -378,11 +380,11 @@ app.post("/calculatecarhealth", async (req, res) => {
                     await checktimingbelt(cardata);
                     await checkcable(cardata);
                     const updateCarData = await Car.findOne({ CarId: identered });
-                    res.render("index", { cardata: JSON.stringify({ cardata: updateCarData }), singleData: updateCarData, message: "" });
+                    res.json({ cardata: JSON.stringify({ cardata: updateCarData }), singleData: updateCarData, message: "" });
                 }
             }
             else {
-                res.render("index", { cardata: null, singleData: null, message: "No Data found for input VIN Number" });
+                res.json({ cardata: null, singleData: null, message: "No Data found for input VIN Number" });
             }
 
         }
@@ -404,11 +406,11 @@ app.post("/servicecompleted", async (req, res) => {
             if (cardata != null && cardata.Serviced == false) {
                 await postServiceUpdateInfo(cardata.CarId);
                 const updateCarData = await Car.findOne({ CarId: identered });
-                res.render("serviceneeded", { cardata: null,singleData: updateCarData, message: "" });
+                res.render("serviceneeded", { cardata: null, singleData: updateCarData, message: "" });
             }
             else {
                 console.log("in else");
-                res.render("serviceneeded", { singleData: null,cardata: null, message: "No Data found for input VIN Number" });
+                res.render("serviceneeded", { cardata: null, singleData: null, message: "No Data found for input VIN Number" });
             }
 
         }

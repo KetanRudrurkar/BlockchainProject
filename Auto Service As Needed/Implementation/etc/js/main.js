@@ -1,12 +1,104 @@
 $(document).ready(function () {
-    var cardata = $("#cardataInput").val();
-    LoadAllCarData(cardata);
+    $("#carTable").hide();
+    $("#error_message").hide();
 });
+
+function searchVIN(){
+    var VIN = $("#input_VIN").val();
+    if(VIN=="" || typeof parseInt(VIN) !== "number") {
+    $("#error_message").html("Input Data format").show(); // passthis to message span div later
+    }
+    else {
+        $("#error_message").html('').hide();
+    $.ajax({
+        url : "/calculatecarhealth",
+        type : "post",
+        async: false,
+        data: {id: VIN},
+        success : function(data) {
+            if(data.cardata == null)
+                $("#error_message").html(data.message).show();
+            else
+                LoadAllCarData(data.cardata);
+
+            if(data.singleData != null) PopulateConditions(data.singleData);
+        },
+        error: function() {
+           connectionError();
+        }
+     });
+    }
+    
+}
+
+function PopulateConditions(singleData) {
+    var redcross = '<i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i>';
+    var col =  '<div class="col-md-3 col-sm-6">';
+    var conditionsHtmlBuilder = '<div class="row">';
+
+    if(singleData.CarServiceNeeded) $("#condition_message").html('<h3>Service is recommended for your car for the below parts in the next 15 days</h3><p>Your car needs service for the following parts:</p>');
+    
+    //console.log(singleData);
+    // for( var key in singleData ) {
+    //     var value = singleData[key];
+    //     console.log(value);
+    //   }
+
+    if(singleData.EngineServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Engine</span>'+redcross+'</div>'; 
+
+    if(singleData.AirFilterServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Air Filter</span>'+redcross+'</div>';
+
+    if(singleData.FuelFilterServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Fuel Filter</span>'+redcross+'</div>';
+
+    if(singleData.BrakeFluidServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Brake Fluid</span>'+redcross+'</div>';
+
+    if(singleData.BrakePadServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Brake Pad</span>'+redcross+'</div>';
+
+    if(singleData.BrakeRotersServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Brake Roters</span>'+redcross+'</div>';
+
+    if(singleData.CoolantServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Coolant</span>'+redcross+'</div>';
+
+    if(singleData.TransmissionFluidServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>TransmissionFluid</span>'+redcross+'</div>';
+
+    if(singleData.GearBoxServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Gear Box</span>'+redcross+'</div>';
+    
+    if(singleData.ClutchPlateServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Clutch Plate</span>'+redcross+'</div>';
+
+    if(singleData.HosesServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Hoses</span>'+redcross+'</div>';
+
+    if(singleData.PowerSteeringServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Power Steering</span>'+redcross+'</div>';
+
+    if(singleData.TimingBeltServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Timing Belt</span>'+redcross+'</div>';
+
+    if(singleData.CabelServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Cabel</span>'+redcross+'</div>';
+
+    if(singleData.BatteryServiceNeeded) 
+    conditionsHtmlBuilder += col +'<span>Battery</span>'+redcross+'</div>';
+
+    conditionsHtmlBuilder+='</div></div>';
+    $("#condition_cases").html(conditionsHtmlBuilder);
+}
 
 function LoadAllCarData(cardata) {
     cardata = JSON.parse(cardata);
+    $("#carTable").show();
+    $("#carTbody").html("");
     $.each(cardata, function (key, value) {
-        $("#carTable").append(htmlBuider(value));
+        $("#carTbody").append(htmlBuider(value));
     });
 }
 
@@ -67,8 +159,11 @@ function htmlBuider(value) {
 }
 
 function ClearForm() {
+    $("#carTable").hide();
     $("#input_VIN").val("");
-    $("#searchVIN").submit();
+    $("#carTable").hide();
+    $("#carCondition").hide();
+    $("#error_message").hide();
 }
 
 function openPage(pageName, elmnt, color) {
