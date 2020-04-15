@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
+
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+}
+
+body {
+  background-color: rgb(78, 93, 110);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: aliceblue;
+  font-family: 'Kalam', cursive;
+  font-family: 'Girassol', cursive;
+}
+
+h2{
+  text-decoration: underline;
+}
+
+input{
+  background-color: antiquewhite;
+}
+
+.button{
+  width: 20%;
+  height: 50%;
+  cursor: pointer;
+  float: center;
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  border-radius: 3%;
+  font-size: medium;
+}

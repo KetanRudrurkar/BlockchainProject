@@ -1,11 +1,27 @@
 import React, { Component } from "react";
 import ItemAuthenticityContract from "./contracts/ItemAuthenticity.json";
+// import {Router, Route, browserHistory} from "react-router";
+import _ from 'lodash';
+import { BrowserRouter, Link, Route} from 'react-router-dom';
+import Manufacture from "./manufacture";
+// import './manufacture.css';
+import Deliver from "./deliver";
+// import './deliver.css';
+import Mapping from './mapping';
+// import './mapping.css';
+import Receive from './receive';
+import BuyCar from './buycar';
+import Navbar from './navbar';
+import CarHistory from './carhistory';
+import './navbar.css';
+// import "./App.css";
+
 import getWeb3 from "./getWeb3";
 
-import "./App.css";
+// import "./App.css";
 
 class App extends Component {
-  state = {gotaccounts: false, enginename: "Engine 1", engineprice: 10, enginequantity: 1,engineid: 0, batteryname: "Battery 1", batteryprice: 10, batteryquantity: 1,batteryid: 0, engineownerhistory: [], carname: "Tesla", carmodel: "M",carprice: 400, carid: 0};
+  state = {gotaccounts: false, engine: { enginename: "Engine 1", engineprice: 10 , enginequantity: 1, engineid: 0} , battery: {batteryname: "Battery 1", batteryprice: 10, batteryquantity: 1,batteryid: 0}, engineownerhistory: [] , batteryownerhistory:[] , carownerhistory:[] , car: {carname: "Tesla", carmodel: "M",carprice: 400, carid: 0}};
 
   componentDidMount = async () => {
     try {
@@ -40,28 +56,37 @@ class App extends Component {
   typinginput = (word) => {
     const target = word.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
+    let name = target.name;
+    const id = word.target.id;
+    if(word.target.id) {
+      var newState = {...this.state}
+      var temp = newState[id]
+      temp[name] = value
+    }
     this.setState({
-      [name]:value 
+      newState
     })
     console.log("Handle input change called.")
   }
 
   manufactureengine= async() => {
-    const {enginename,engineprice, enginequantity,engineid} = this.state;
+    const {enginename,engineprice, enginequantity,engineid} = this.state.engine;
     const accounts = await this.web3.eth.getAccounts();
     console.log(accounts[0]);
     var balance = this.web3.eth.getBalance(accounts[0]);
-    console.log("balance is", balance);
+    console.log("balance is", balance); 
     console.log(this.contractinstance.methods.itemcreation(enginename,engineprice,enginequantity, engineid));
     let engineobject = await this.contractinstance.methods.itemcreation(enginename, engineprice, enginequantity,engineid).send({from:accounts[0], gas:3000000});
     console.log("engine object is", engineobject);
     // document.getElementById("enginecreated").innerHTML(engineobject.events.statusevent.returnValues.itemname);
     alert("send" + engineprice + "wei");
+    // document.getElementById("engine").innerHTML = "The Engine has been manufactured with the unique id: "<li>engineobject.events.statusevent.returnValues.itemname</li>;
+
   }
 
+
   manufacturebattery= async() => {
-    const {batteryname,batteryprice, batteryquantity,batteryid} = this.state;
+    const {batteryname,batteryprice, batteryquantity,batteryid} = this.state.battery;
     const accounts = await this.web3.eth.getAccounts();
     console.log("account 0 and 1",accounts[0], accounts[1]);
     var balance = this.web3.eth.getBalance(accounts[0]);
@@ -74,7 +99,7 @@ class App extends Component {
   }
   
   buyengine = async() => {
-    const {engineid, engineprice} = this.state;
+    const {engineid, engineprice} = this.state.engine;
     const accounts = await this.web3.eth.getAccounts();
     let buyengineobject = await this.contractinstance.methods.buyandpayitem(engineid).send({from:accounts[0], gas:3000000, value: engineprice})
     console.log("buy engine object is", buyengineobject);
@@ -83,7 +108,7 @@ class App extends Component {
 }
 
 buybattery = async() => {
-  const {batteryid, batteryprice} = this.state;
+  const {batteryid, batteryprice} = this.state.battery;
   const accounts = await this.web3.eth.getAccounts();
   console.log("account 0 and 1",accounts[0], accounts[1]);
   let buybatteryobject = await this.contractinstance.methods.buyandpaybattery(batteryid).send({from:accounts[0], gas:3000000, value: batteryprice})
@@ -93,7 +118,7 @@ buybattery = async() => {
 }
 
 deliverengine = async() => {
-  const {engineid} = this.state;
+  const {engineid} = this.state.engine;
   const accounts = await this.web3.eth.getAccounts();
   let deliverengineobject = await this.contractinstance.methods.enginedeliveredbymanufacturer(engineid).send({from:accounts[0], gas:3000000})
   console.log("deleiver engine object is", deliverengineobject);
@@ -101,7 +126,7 @@ deliverengine = async() => {
 }
 
 deliverbattery = async() => {
-  const {batteryid} = this.state;
+  const {batteryid} = this.state.battery;
   const accounts = await this.web3.eth.getAccounts();
   let deliverbatteryobject = await this.contractinstance.methods.batterydeliveredbymanufacturer(batteryid).send({from:accounts[0], gas:3000000})
   console.log("deleiver battery object is", deliverbatteryobject);
@@ -109,7 +134,7 @@ deliverbattery = async() => {
 }
 
 receiveengine = async() => {
-  const {engineid} = this.state;
+  const {engineid} = this.state.engine;
   const accounts = await this.web3.eth.getAccounts();
   let receiveengineobject = await this.contractinstance.methods.itemreceived(engineid).send({from:accounts[0], gas:3000000})
   console.log("receive engine object is", receiveengineobject);
@@ -117,7 +142,7 @@ receiveengine = async() => {
 }
 
 receivebattery = async() => {
-  const {batteryid} = this.state;
+  const {batteryid} = this.state.battery;
   const accounts = await this.web3.eth.getAccounts();
   let receivebatteryobject = await this.contractinstance.methods.batteryreceived(batteryid).send({from:accounts[0], gas:3000000})
   console.log("receive battery object is", receivebatteryobject);
@@ -126,7 +151,7 @@ receivebattery = async() => {
 }
 
 engineowners = async() => {
-  const {engineid} = this.state;
+  const {engineid} = this.state.engine;
   console.log("hello");
   const owners = await this.contractinstance.methods.itemownersdetails(engineid).call().then(result => {console.log(result);
   return result;
@@ -138,7 +163,7 @@ engineowners = async() => {
 }
 
 batteryowners = async() => {
-  const {batteryid} = this.state;
+  const {batteryid} = this.state.battery;
   console.log("hello");
   const owners = await this.contractinstance.methods.batteryownersdetails(batteryid).call().then(result => {console.log(result);
   return result;
@@ -150,7 +175,9 @@ batteryowners = async() => {
 }
 
 registercar = async() => {
-  const {carname, carmodel, carprice, carid, engineid, batteryid} = this.state;
+  const {carname, carmodel, carprice, carid} = this.state.car;
+  const {batteryid} = this.state.battery;
+  const {engineid} = this.state.engine;
   const accounts = await this.web3.eth.getAccounts();
   console.log(accounts[0]);
   var balance = this.web3.eth.getBalance(accounts[0]);
@@ -163,7 +190,7 @@ registercar = async() => {
 }
 
 buycar = async() => {
-  const {carid, carprice} = this.state;
+  const {carid, carprice} = this.state.car;
   const accounts = await this.web3.eth.getAccounts();
   let buycarobject = await this.contractinstance.methods.buyandpaycar(carid).send({from:accounts[0], gas:3000000, value: carprice})
   console.log("buy engine object is", buycarobject);
@@ -172,9 +199,9 @@ buycar = async() => {
 }
 
 carowners = async() => {
-  const {carid} = this.state;
+  const {carid} = this.state.car;
   console.log("hello");
-  const owners = await this.contractinstance.methods.carownershistory(carid).call().then(result => {console.log(result);
+  const owners = await this.contractinstance.methods.carownershistory(carid).call({gas:3000000}).then(result => {console.log(result);
   return result;
 });
   console.log(owners);
@@ -203,96 +230,23 @@ carowners = async() => {
   // };
 
   render() {
+    // console.log(this.state)
     if (!this.state.gotaccounts) {
       return <div>Loading Web3, accounts, and contract...</div>;
     }
     return (
-      <div className="App">
-        <h1>Car parts verification and tracing Project CMPE 295B</h1>
-        <ul><h2>Manufacturer Dashboard</h2></ul>
-        <strong><h3>Create Engine</h3></strong>
-        Engine Name : <input type="text" name="enginename" value={this.state.enginename} onChange={this.typinginput} />
-        Engine Price (Wei) : <input type="text" name="engineprice" value={this.state.engineprice} onChange={this.typinginput} />
-        Engine Quantity: <input type="text" name="enginequantity" value={this.state.enginequantity} onChange={this.typinginput} />
-        Engine id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.manufactureengine}>Manufacture Engine</button>
+      <BrowserRouter>
 
-        <strong><h3>Deliver Engine</h3></strong>
-        Engine id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.deliverengine}>Deliver Engine</button>
-
-        <strong><h3>Create Battery</h3></strong>
-        Battery Name : <input type="text" name="batteryname" value={this.state.batteryname} onChange={this.typinginput} />
-        Battery Price (Wei) : <input type="text" name="batteryprice" value={this.state.batteryprice} onChange={this.typinginput} />
-        Battery Quantity: <input type="text" name="batteryquantity" value={this.state.batteryquantity} onChange={this.typinginput} />
-        Battery id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.manufacturebattery}>Manufacture Battery</button>
-
-        <strong><h3>Deliver Battery</h3></strong>
-        Battery id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.deliverbattery}>Deliver Battery</button>
-
-        <br></br>
-
-        <ul><h2>Assembler Dashboard</h2></ul>
-        <strong><h3>Buy Engine</h3></strong>
-        Enter Engine Id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
-        Enter price in wei: <input type="text" name="engineprice" value={this.state.engineprice} onChange={this.typinginput} />
-        <button type="button" onClick ={this.buyengine}>Buy Engine</button>
-
-        <strong><h3>Received Engine</h3></strong>
-        Engine id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.receiveengine}>Received Engine</button>
-
-        <strong><h3>Buy Battery</h3></strong>
-        Enter Battery Id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
-        Enter price in wei: <input type="text" name="batteryprice" value={this.state.batteryprice} onChange={this.typinginput} />
-        <button type="button" onClick ={this.buybattery}>Buy Battery</button>
-
-        <strong><h3>Received Battery</h3></strong>
-        Battery id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.receivebattery}>Received Battery</button>
-
-        <ul><h2>Engine and battery mapping with Car</h2></ul>
-        <strong><h3>Register Car</h3></strong>
-        car Name : <input type="text" name="carname" value={this.state.carname} onChange={this.typinginput} />
-        Car Model : <input type="text" name="carmodel" value={this.state.carmodel} onChange={this.typinginput} />
-        Car Price (Wei) : <input type="text" name="carprice" value={this.state.carprice} onChange={this.typinginput} />
-        Car id: <input type="text" name="carid" value={this.state.carid} onChange={this.typinginput} />
-        Engine id to install: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
-        Battery id to install: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.registercar}>Register Car</button>
-
-        <strong><h3>Buy Car</h3></strong>
-        Enter Car Id: <input type="text" name="carid" value={this.state.carid} onChange={this.typinginput} />
-        Enter price in wei: <input type="text" name="carprice" value={this.state.carprice} onChange={this.typinginput} />
-        <button type="button" onClick ={this.buycar}>Buy Car</button>
-
-
-
-      
-        <ul><h2>Owner History Look up</h2></ul>
-        <strong><h3>Car owners history</h3></strong>
-        Enter Car Id: <input type="text" name="carid" value={this.state.carid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.carowners}>Get Car Owners history</button>
-        All of the Car owners are {this.state.carownerhistory ? this.state.carownerhistory.map(eachOwner => {
-          return(<div><li>{eachOwner}</li></div>)
-        }):null};
-        <strong><h3>Engine tracing</h3></strong>
-        Enter Engine Id: <input type="text" name="engineid" value={this.state.engineid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.engineowners}>Verify Engine source</button>
-        All of the engine owners are {this.state.engineownerhistory ? this.state.engineownerhistory.map(eachOwner => {
-          return(<div><li>{eachOwner}</li></div>)
-        }):null};
-
-        <strong><h3>Battery tracing</h3></strong>
-        Enter Battery Id: <input type="text" name="batteryid" value={this.state.batteryid} onChange={this.typinginput} />
-        <button type="button" onClick ={this.batteryowners}>Verify Battery Source</button>
-        All of the battery owners are {this.state.batteryownerhistory ? this.state.batteryownerhistory.map(eachOwner => {
-          return(<div><li>{eachOwner}</li></div>)
-        }):null};
-
-      </div>
+          <Route path='/' render={(props) => <Navbar />} />
+          <Route exact path='/' render={(props) => <Manufacture manufactureengine = {this.manufactureengine} manufacturebattery = {this.manufacturebattery} typinginput={this.typinginput} engine={this.state.engine} battery={this.state.battery}/>}/>
+          <Route path='/manufacture' render={(props) => <Manufacture manufactureengine = {this.manufactureengine} engineobject={this.engineobject} manufacturebattery = {this.manufacturebattery} typinginput={this.typinginput} engine={this.state.engine} battery={this.state.battery}/>}/>
+          <Route path='/deliver' render={(props) => <Deliver deliverengine = {this.deliverengine} deliverbattery={this.deliverbattery} typinginput= {this.typinginput} engine={this.state.engine} battery={this.state.battery}/> }/>
+          <Route path='/mapping' render={(props) => <Mapping buyengine={this.buyengine} buybattery={this.buybattery} registercar={this.registercar} typinginput={this.typinginput} car={this.state.car} engine={this.state.engine} battery={this.state.battery}/> }/>
+          <Route path='/buycar'  render={(props) => <BuyCar buycar={this.buycar} typinginput={this.typinginput} car={this.state.car} /> } />
+          <Route path='/receive' render={(props) => <Receive receiveengine = {this.receiveengine} receivebattery={this.receivebattery} typinginput= {this.typinginput} engine={this.state.engine} battery={this.state.battery}/>}/>
+          <Route path='/carhistory' render={(props) => <CarHistory batteryowners={this.batteryowners} engineowners={this.engineowners} carowners={this.carowners} typinginput={this.typinginput} car={this.state.car} engine={this.state.engine} battery={this.state.battery} engineownerhistory={this.state.engineownerhistory} batteryownerhistory={this.state.batteryownerhistory} carownerhistory={this.state.carownerhistory} />}/> 
+  
+      </BrowserRouter>         
     );
   }
 }
