@@ -6,16 +6,16 @@ class Navbar extends Component{
     render(){
         return(
             <header>
-                <h2>
+                <h1>
                     <a>Car Management System</a>
-                </h2>
+                </h1>
             <nav>
-                <li><NavLink to={"/manufacture"} activeStyle={{color: "blue"}}>Manufacture</NavLink></li>
-                <li><NavLink to={"/mapping"} activeStyle={{color: "blue"}}>Car Mapping</NavLink></li>
-                <li><NavLink to={"/buycar"} activeStyle={{color: "blue"}}>Buy Car</NavLink></li>
-                <li><NavLink to={"/carhistory"} activeStyle={{color: "blue"}}>Car History</NavLink></li>
-                <li><NavLink to={"/deliver"} activeStyle={{color: "blue"}}>Deliver</NavLink></li>
-                <li><NavLink to={"/receive"} activeStyle={{color: "blue"}}>Receive</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/manufacture"} activeStyle={{color: "blue"}}>Manufacture</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/mapping"} activeStyle={{color: "blue"}}>Car Mapping</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/buycar"} activeStyle={{color: "blue"}}>Buy Car</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/carhistory"} activeStyle={{color: "blue"}}>Car History</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/deliver"} activeStyle={{color: "blue"}}>Deliver</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/receive"} activeStyle={{color: "blue"}}>Receive</NavLink></li>
             </nav>
             </header>
         )

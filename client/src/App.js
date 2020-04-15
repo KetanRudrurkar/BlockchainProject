@@ -14,7 +14,7 @@ import BuyCar from './buycar';
 import Navbar from './navbar';
 import CarHistory from './carhistory';
 import './navbar.css';
-// import "./App.css";
+import "./App.css";
 
 import getWeb3 from "./getWeb3";
 
