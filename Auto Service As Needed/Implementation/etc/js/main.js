@@ -17,7 +17,41 @@ function searchVIN(){
         data: {id: VIN},
         success : function(data) {
             if(data.cardata == null)
+            {
+                $("#error_message").html(data.message).show(); $("#carInfoContainer").hide();
+            }
+            else
+                LoadAllCarData(data.cardata);
+
+            if(data.singleData != null) PopulateConditions(data.singleData);
+        },
+        error: function() {
+           connectionError();
+        }
+     });
+    }
+    
+}
+
+function serviceVIN(){
+    var VIN = $("#service_VIN").val();
+    if(VIN=="" || typeof parseInt(VIN) !== "number") {
+    $("#error_message").html("Input in correct Data format").show(); // passthis to message span div later
+    }
+    else {
+        $("#error_message").html('').hide();
+    $.ajax({
+        url : "/servicecompleted",
+        type : "post",
+        async: false,
+        data: {id: VIN},
+        success : function(data) {
+            console.log(data);
+            if(data.cardata == null)
+            {
                 $("#error_message").html(data.message).show();
+                $("#carInfoContainer").hide();
+            }   
             else
                 LoadAllCarData(data.cardata);
 
@@ -33,10 +67,14 @@ function searchVIN(){
 
 function PopulateConditions(singleData) {
     var redcross = '<i class="fa fa-times" style="font-size:20px; color:red; margin-top: 4px;"></i>';
+    var checkIcon = '<i class="fa fa-check" style="font-size:20px; color:green; margin-top: 4px;"></i>';
     var col =  '<div class="col-md-3 col-sm-6">';
     var conditionsHtmlBuilder = '<div class="row">';
 
-    if(singleData.CarServiceNeeded) $("#condition_message").html('<h3>Service is recommended for your car for the below parts in the next 15 days</h3><p>Your car needs service for the following parts:</p>');
+    if(singleData.CarServiceNeeded) 
+        $("#condition_message").html('<h3>Service is recommended for your car for the below parts in the next 15 days</h3><p>Your car needs service for the following parts:</p>');
+    else
+        $("#condition_message").html('<h3>Your Car does not need service at this moment</h3>');
     
     //console.log(singleData);
     // for( var key in singleData ) {
@@ -45,52 +83,84 @@ function PopulateConditions(singleData) {
     //   }
 
     if(singleData.EngineServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Engine</span>'+redcross+'</div>'; 
+        conditionsHtmlBuilder += col +'<span>Engine</span>'+redcross+'</div>'; 
+    else
+        conditionsHtmlBuilder += col +'<span>Engine</span>'+checkIcon+'</div>'; 
 
     if(singleData.AirFilterServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Air Filter</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Air Filter</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Air Filter</span>'+checkIcon+'</div>';
 
     if(singleData.FuelFilterServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Fuel Filter</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Fuel Filter</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Fuel Filter</span>'+checkIcon+'</div>';
 
     if(singleData.BrakeFluidServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Brake Fluid</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Brake Fluid</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Brake Fluid</span>'+checkIcon+'</div>';
 
     if(singleData.BrakePadServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Brake Pad</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Brake Pad</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Brake Pad</span>'+checkIcon+'</div>';
 
     if(singleData.BrakeRotersServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Brake Roters</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Brake Roters</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Brake Roters</span>'+checkIcon+'</div>';
 
     if(singleData.CoolantServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Coolant</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Coolant</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Coolant</span>'+checkIcon+'</div>';
 
     if(singleData.TransmissionFluidServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>TransmissionFluid</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Transmission Fluid</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Transmission Fluid</span>'+checkIcon+'</div>';
 
     if(singleData.GearBoxServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Gear Box</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Gear Box</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Gear Box</span>'+checkIcon+'</div>';
     
     if(singleData.ClutchPlateServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Clutch Plate</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Clutch Plate</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Clutch Plate</span>'+checkIcon+'</div>';
 
     if(singleData.HosesServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Hoses</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Hoses</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Hoses</span>'+checkIcon+'</div>';
 
     if(singleData.PowerSteeringServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Power Steering</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Power Steering</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Power Steering</span>'+checkIcon+'</div>';
 
     if(singleData.TimingBeltServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Timing Belt</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Timing Belt</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Timing Belt</span>'+checkIcon+'</div>';
 
     if(singleData.CabelServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Cabel</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Cable</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Cable</span>'+checkIcon+'</div>';
 
     if(singleData.BatteryServiceNeeded) 
-    conditionsHtmlBuilder += col +'<span>Battery</span>'+redcross+'</div>';
+        conditionsHtmlBuilder += col +'<span>Battery</span>'+redcross+'</div>';
+    else
+        conditionsHtmlBuilder += col +'<span>Battery</span>'+checkIcon+'</div>';
 
     conditionsHtmlBuilder+='</div></div>';
     $("#condition_cases").html(conditionsHtmlBuilder);
+    $("#carCondition").show();
+    $("#carInfoContainer").show();
 }
 
 function LoadAllCarData(cardata) {
@@ -100,6 +170,7 @@ function LoadAllCarData(cardata) {
     $.each(cardata, function (key, value) {
         $("#carTbody").append(htmlBuider(value));
     });
+    $("#carInfoContainer").show();
 }
 
 function htmlBuider(value) {
@@ -159,14 +230,17 @@ function htmlBuider(value) {
 }
 
 function ClearForm() {
+    $("#carInfoContainer").hide();
     $("#carTable").hide();
     $("#input_VIN").val("");
+    $("#service_VIN").val("");
     $("#carTable").hide();
     $("#carCondition").hide();
     $("#error_message").hide();
 }
 
 function openPage(pageName, elmnt, color) {
+    $("#carInfoContainer").hide();
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {

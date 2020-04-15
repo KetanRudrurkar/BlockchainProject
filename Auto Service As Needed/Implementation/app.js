@@ -264,10 +264,10 @@ async function checkbattery(data) {
 async function updateCarInfoById(updateParam, carId) {
     await Car.findByIdAndUpdate({ _id: carId }, updateParam, function (err, data) {
         if (err) {
-            console.log(data)
+           // console.log(data)
         }
         else {
-            console.log("update succesful", data);
+            //console.log("update succesful", data);
             return true;
         }
     })
@@ -348,20 +348,18 @@ async function postServiceUpdateInfo(carId) {
 }
 
 app.post("/calculatecarhealth", async (req, res) => {
-    console.log("Ajax call");
-    console.log(req.body);
     identered = req.body.id;
     if(identered != "")
     {
-    console.log("identered", identered);
+   // console.log("identered", identered);
     await Car.findOne({ CarId: identered }, async function (err, cardata) {
         if (err) {
             console.log(err);
         } else {
-            console.log(cardata);
+           // console.log(cardata);
             if (cardata != null) {
                 if(cardata.Serviced){
-                    res.render("index", {cardata: JSON.stringify({ cardata: cardata }),singleData: cardata, message: ""} );
+                    res.json({ cardata: JSON.stringify({ cardata: cardata }), singleData: cardata, message: "" });
                 }
                 else{
                     await checkengine(cardata);
@@ -396,21 +394,21 @@ app.post("/servicecompleted", async (req, res) => {
     identered = req.body.id;
     if(identered != "")
     {
-    console.log("identered", identered);
     await Car.findOne({ CarId: identered }, async function (err, cardata) {
         if (err) {
             console.log(err);
         } 
-        else {
-            console.log(cardata,"In post service");
+        else {       
             if (cardata != null && cardata.Serviced == false) {
                 await postServiceUpdateInfo(cardata.CarId);
                 const updateCarData = await Car.findOne({ CarId: identered });
-                res.render("serviceneeded", { cardata: null, singleData: updateCarData, message: "" });
+                res.json({ cardata: JSON.stringify({ cardata: updateCarData }), singleData: updateCarData, message: "" });
+            }
+            else if (cardata.Serviced) {
+                res.json({ cardata: null, singleData: null, message: "VIN - "+identered+" is already serviced on "+cardata.LastServiceDate  });
             }
             else {
-                console.log("in else");
-                res.render("serviceneeded", { cardata: null, singleData: null, message: "No Data found for input VIN Number" });
+                res.json({ cardata: null, singleData: null, message: "No Data found for input VIN Number" });
             }
 
         }

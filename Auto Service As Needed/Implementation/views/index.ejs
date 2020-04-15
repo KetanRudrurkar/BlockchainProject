@@ -17,12 +17,12 @@
 
 <body>
 
-  <button class="tablink" onclick="openPage('Service', this, 'red'); " id="defaultOpen">User</button>
+  <button class="tablink" onclick="openPage('Customer', this, 'red'); " id="defaultOpen">Customer</button>
+  <button class="tablink" onclick="openPage('Service', this, 'red'); ">Service Point</button>
   <!-- <button class="tablink" onclick="openPage('About', this, 'green')">Service Point</button> -->
 
-  <div id="Service" class="tabcontent">
+  <div id="Customer" class="tabcontent">
     <div class="container">
-
       <div class="car_form" id="searchVIN">
         <div>
           <label><strong>Enter Car VIN: </strong></label>
@@ -32,80 +32,95 @@
           <button class="btn btn-primary" onclick="searchVIN()">Check Car Health</button>
           <button class="btn btn-primary" onclick="ClearForm()">Clear</button>
         </div>
-        <br>
-        <span id="error_message" style="color: red;"></span>
       </div>
-
-      <div class="table-responsive" id="carTable">
-        <h2>CAR DETAILS</h2>
-        <table class="table table-bordered table-striped">
-          <tr>
-            <th>CarId</th>
-            <th>MilesTraveled</th>
-            <th>AverageSpeed</th>
-            <th>CarLifeSpaninYear</th>
-            <th>LastServiceDat</th>
-            <th>MilesDuringLastService</th>
-            <th>MilesBetweenServices</th>
-            <th>EngineId</th>
-            <th>EngineManufactureDate</th>
-            <th>EngineLifeSpaninYears</th>
-            <th>EngineLifeSpaninPercentage</th>
-            <th>DaysSinceEngineLastService</th>
-            <th>EngineDaysOld</th>
-            <th>AirFilterDaysOld</th>
-            <th>FuelFilterDaysOld</th>
-            <th>BrakeFluidDaysOld</th>
-            <th>CoolantDaysOld</th>
-            <th>DaysSinceGearBoxLastService</th>
-            <th>BatteryDaysOld</th>
-            <th>TransmissionFluidDaysOld</th>
-            <th>TransmissionFluidTemperature</th>
-            <th>BatteryTemperature</th>
-            <th>EngineSparkPlugType</th>
-            <th>CableMilesUsed</th>
-            <th>TimingBeltMilesUsed</th>
-            <th>EngineSparkPlugMilesUsed</th>
-            <th>PowerSteeringFluidMilesUsed</th>
-            <th>HosesMilesUsed</th>
-            <th>ClutchPlateMilesUsed</th>
-            <th>TransmissionFluidMilesUsed</th>
-            <th>CoolantMilesUsed</th>
-            <th>BrakeRotersMilesUsed</th>
-            <th>BrakeFluidMilesUsed</th>
-            <th>EngineServiceNeeded </th>
-            <th>AirFilterServiceNeeded </th>
-            <th>FuelFilterServiceNeeded </th>
-            <th>BrakeFluidServiceNeeded </th>
-            <th>BrakePadServiceNeeded </th>
-            <th>BrakeRotersServiceNeeded </th>
-            <th>CoolantServiceNeeded </th>
-            <th>TransmissionFluidServiceNeeded </th>
-            <th>GearBoxServiceNeeded </th>
-            <th>ClutchPlateServiceNeeded </th>
-            <th>HosesServiceNeeded </th>
-            <th>PowerSteeringServiceNeeded </th>
-            <th>EngineSparkPlugServiceNeeded </th>
-            <th>TimingBeltServiceNeeded</th>
-            <th>CabelServiceNeeded </th>
-            <th>BatteryServiceNeeded </th>
-            <th>CarServiceNeeded </th>
-            <th>Serviced</th>
-
-          </tr>
-          <tbody id="carTbody"></tbody>
-        </table>
-      </div>
-
-      <div class="car_condition" id="carCondition">
-        <span id="condition_message"></span>
-        <div id="condition_cases"></div>
-      </div>
-
     </div>
   </div>
 
-<script src="./js/main.js"></script>
+  <div id="Service" class="tabcontent">
+    <div class="container">
+      <div class="car_form" id="serviceVIN">
+        <div>
+          <label><strong>Enter Car VIN to be serviced: </strong></label>
+          <input type="number" name="id" id="service_VIN" required="">
+        </div>
+        <div>
+          <button class="btn btn-primary" onclick="serviceVIN()">Service this Car</button>
+          <button class="btn btn-primary" onclick="ClearForm()">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <span id="error_message" style="color: red; margin-left: 50%; text-align: center;"></span>
+  <div class="container" id="carInfoContainer">
+    <span id="condition_message"></span>
+    <div class="table-responsive" id="carTable">
+      <h2>CAR DETAILS</h2>
+      <table class="table table-bordered table-striped">
+        <tr>
+          <th>CarId</th>
+          <th>MilesTraveled</th>
+          <th>AverageSpeed</th>
+          <th>CarLifeSpaninYear</th>
+          <th>LastServiceDat</th>
+          <th>MilesDuringLastService</th>
+          <th>MilesBetweenServices</th>
+          <th>EngineId</th>
+          <th>EngineManufactureDate</th>
+          <th>EngineLifeSpaninYears</th>
+          <th>EngineLifeSpaninPercentage</th>
+          <th>DaysSinceEngineLastService</th>
+          <th>EngineDaysOld</th>
+          <th>AirFilterDaysOld</th>
+          <th>FuelFilterDaysOld</th>
+          <th>BrakeFluidDaysOld</th>
+          <th>CoolantDaysOld</th>
+          <th>DaysSinceGearBoxLastService</th>
+          <th>BatteryDaysOld</th>
+          <th>TransmissionFluidDaysOld</th>
+          <th>TransmissionFluidTemperature</th>
+          <th>BatteryTemperature</th>
+          <th>EngineSparkPlugType</th>
+          <th>CableMilesUsed</th>
+          <th>TimingBeltMilesUsed</th>
+          <th>EngineSparkPlugMilesUsed</th>
+          <th>PowerSteeringFluidMilesUsed</th>
+          <th>HosesMilesUsed</th>
+          <th>ClutchPlateMilesUsed</th>
+          <th>TransmissionFluidMilesUsed</th>
+          <th>CoolantMilesUsed</th>
+          <th>BrakeRotersMilesUsed</th>
+          <th>BrakeFluidMilesUsed</th>
+          <th>EngineServiceNeeded </th>
+          <th>AirFilterServiceNeeded </th>
+          <th>FuelFilterServiceNeeded </th>
+          <th>BrakeFluidServiceNeeded </th>
+          <th>BrakePadServiceNeeded </th>
+          <th>BrakeRotersServiceNeeded </th>
+          <th>CoolantServiceNeeded </th>
+          <th>TransmissionFluidServiceNeeded </th>
+          <th>GearBoxServiceNeeded </th>
+          <th>ClutchPlateServiceNeeded </th>
+          <th>HosesServiceNeeded </th>
+          <th>PowerSteeringServiceNeeded </th>
+          <th>EngineSparkPlugServiceNeeded </th>
+          <th>TimingBeltServiceNeeded</th>
+          <th>CabelServiceNeeded </th>
+          <th>BatteryServiceNeeded </th>
+          <th>CarServiceNeeded </th>
+          <th>Serviced</th>
+
+        </tr>
+        <tbody id="carTbody"></tbody>
+      </table>
+    </div>
+
+    <div class="car_condition" id="carCondition">
+      <div id="condition_cases"></div>
+    </div>
+  </div>
+
+  <script src="./js/main.js"></script>
 </body>
 
 </html>
