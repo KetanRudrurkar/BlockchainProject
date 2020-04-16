@@ -1,23 +1,29 @@
 import React, {Component} from 'react';
 import {NavLink} from "react-router-dom";
+import Role from './role';
 import './navbar.css';
 
 class Navbar extends Component{
     render(){
         return(
+            <div>
             <header>
                 <h1>
                     <a>Car Management System</a>
                 </h1>
             <nav>
-                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/manufacture"} activeStyle={{color: "blue"}}>Manufacture</NavLink></li>
+                {/* <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/manufacture"} activeStyle={{color: "blue"}}>Manufacture</NavLink></li>
                 <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/mapping"} activeStyle={{color: "blue"}}>Car Mapping</NavLink></li>
                 <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/buycar"} activeStyle={{color: "blue"}}>Buy Car</NavLink></li>
                 <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/carhistory"} activeStyle={{color: "blue"}}>Car History</NavLink></li>
                 <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/deliver"} activeStyle={{color: "blue"}}>Deliver</NavLink></li>
-                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/receive"} activeStyle={{color: "blue"}}>Receive</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/receive"} activeStyle={{color: "blue"}}>Receive</NavLink></li> */}
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/businessnavbar"} activeStyle={{color: "blue"}}>Business Dashboard</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/usernavbar"} activeStyle={{color: "blue"}}>User Dashboard</NavLink></li>
             </nav>
             </header>
+            <Role />
+            </div>
         )
     }
 }

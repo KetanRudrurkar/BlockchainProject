@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Kalam:wght@300&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Girassol&display=swap');
 
 
@@ -19,7 +19,7 @@ body {
   /* justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: aliceblue;
-  font-family: 'Kalam', cursive;
+  /* font-family: 'Kalam', cursive; */
   font-family: 'Girassol', cursive;
 }
 
@@ -34,11 +34,9 @@ h2{
   text-align: center;
   margin: 0;
   border-bottom: 5px solid #fff;
+  border-width: medium;
 }
 
-input{
-  background-color: antiquewhite;
-}
 
 .button{
   width: 70%;
@@ -46,10 +44,25 @@ input{
   cursor: pointer;
   float: center;
   color: #fff;
-  background-color: #337ab7;
-  border-color: #2e6da4;
-  border-radius: 3%;
-  font-size: medium;
+  background-color: #343a40;
+  border-color: #343a40;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  padding: 5%;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid transparent;
+  /* padding: .375rem .75rem; */
+  font-size: 1.09rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  margin: auto;
 }
 
 .container{
@@ -57,6 +70,7 @@ input{
     align-items: center;
     width: 90%;
     justify-content: center;
+    margin-top: 3%
 }
 
 .sub-container{
@@ -64,7 +78,7 @@ input{
 }
 
 input{
-  background-color: antiquewhite;
+  background-color: aliceblue;
     margin-right: 40px;
     margin-bottom: 10px;
     padding-left: 10px;
@@ -72,4 +86,25 @@ input{
     border: 1px solid;
     border-radius: 5px;
     font-size: 20px;
+}
+
+.role{
+  align-items: center;
+  width: 90%;
+  justify-content: center;
+  margin: auto;
+  margin-left: 20%;
+  margin-top: 10%;
+}
+.btn-light {
+  margin-right: 2%;
+  font-size: large;
+}
+
+.btn-dark{
+  font-size: large;
+}
+.row{
+  margin-left: 40%;
+  margin: auto;
 }
