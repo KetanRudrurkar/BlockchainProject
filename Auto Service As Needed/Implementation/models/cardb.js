@@ -50,8 +50,9 @@ var cardbschema = new mongoose.Schema({
             CabelServiceNeeded: Boolean,
             BatteryServiceNeeded: Boolean,
             CarServiceNeeded: Boolean,
-            Serviced: Boolean
-
+            Serviced: Boolean,
+            PartsThatNeedService: Array,
+            PartsThatDontNeedService: Array
 });
 
 module.exports = mongoose.model("Cardb", cardbschema);

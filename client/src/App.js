@@ -16,6 +16,9 @@ import CarHistory from './carhistory';
 import BusinessNavbar from './businessnavbar';
 import UserNavbar from './usernavbar';
 import Role from './role'
+import PartsServiceNavbar from './partsservicenavbar';
+import PartServiceUser from './partserviceuser';
+import PartServiceServicePoint from './partserviceservicepoint'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import './navbar.css';
 
@@ -253,8 +256,11 @@ carowners = async() => {
           <Route path='/usernavbar/buycar'  render={(props) => <BuyCar buycar={this.buycar} typinginput={this.typinginput} car={this.state.car} /> } />
           <Route path='/businessnavbar/receive' render={(props) => <Receive receiveengine = {this.receiveengine} receivebattery={this.receivebattery} typinginput= {this.typinginput} engine={this.state.engine} battery={this.state.battery}/>}/>
           <Route path='/businessnavbar/carhistory' render={(props) => <CarHistory batteryowners={this.batteryowners} engineowners={this.engineowners} carowners={this.carowners} typinginput={this.typinginput} car={this.state.car} engine={this.state.engine} battery={this.state.battery} engineownerhistory={this.state.engineownerhistory} batteryownerhistory={this.state.batteryownerhistory} carownerhistory={this.state.carownerhistory} />}/>
-          <Route path='/usernavbar/carhistory' render={(props) => <CarHistory batteryowners={this.batteryowners} engineowners={this.engineowners} carowners={this.carowners} typinginput={this.typinginput} car={this.state.car} engine={this.state.engine} battery={this.state.battery} engineownerhistory={this.state.engineownerhistory} batteryownerhistory={this.state.batteryownerhistory} carownerhistory={this.state.carownerhistory} />}/> 
-  
+          <Route path='/usernavbar/carhistory' render={(props) => <CarHistory batteryowners={this.batteryowners} engineowners={this.engineowners} carowners={this.carowners} typinginput={this.typinginput} car={this.state.car} engine={this.state.engine} battery={this.state.battery} engineownerhistory={this.state.engineownerhistory} batteryownerhistory={this.state.batteryownerhistory} carownerhistory={this.state.carownerhistory} />}/>
+          <Route path='/usernavbar/partsservicenavbar' render={(props) => <PartsServiceNavbar typinginput= {this.typinginput}/>}/>
+          <Route path='/usernavbar/partsservicenavbar/user' render={(props) => <PartServiceUser />}/>
+          <Route path='/usernavbar/partsservicenavbar/servicepoint' render={(props) => <PartServiceServicePoint typinginput= {this.typinginput}/>}/>
+
       </BrowserRouter>         
     );
   }

@@ -53,8 +53,12 @@
 
   <span id="error_message" style="color: red; margin-left: 50%; text-align: center;"></span>
   <div class="container" id="carInfoContainer">
-    <span id="condition_message"></span>
+    
     <div class="table-responsive" id="carTable">
+      <div class="car_condition" id="carCondition">
+        <span id="condition_message"></span>
+        <div id="condition_cases"></div>
+      </div>
       <h2>CAR DETAILS</h2>
       <table class="table table-bordered table-striped">
         <tr>
@@ -115,9 +119,7 @@
       </table>
     </div>
 
-    <div class="car_condition" id="carCondition">
-      <div id="condition_cases"></div>
-    </div>
+    
   </div>
 
   <script src="./js/main.js"></script>

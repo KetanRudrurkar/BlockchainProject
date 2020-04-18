@@ -11,7 +11,7 @@ function searchVIN(){
     else {
         $("#error_message").html('').hide();
     $.ajax({
-        url : "/calculatecarhealth",
+        url : "/calculatecarhealth",    
         type : "post",
         async: false,
         data: {id: VIN},
@@ -74,7 +74,7 @@ function PopulateConditions(singleData) {
     if(singleData.CarServiceNeeded) 
         $("#condition_message").html('<h3>Service is recommended for your car for the below parts in the next 15 days</h3><p>Your car needs service for the following parts:</p>');
     else
-        $("#condition_message").html('<h3>Your Car does not need service at this moment</h3>');
+        $("#condition_message").html('<h3>All the parts of your car are checked and healthy!</h3>');
     
     //console.log(singleData);
     // for( var key in singleData ) {
@@ -178,6 +178,7 @@ function htmlBuider(value) {
     tableHtml += '<td>' + value.CarId + '</td>';
     tableHtml += '<td>' + value.MilesTraveled + '</td>';
     tableHtml += '<td>' + value.AverageSpeed + '</td>';
+    tableHtml += '<td>' + value.CarLifeSpanInYear + '</td>';
     tableHtml += '<td>' + value.LastServiceDate + '</td>';
     tableHtml += '<td>' + value.MilesDuringLastService + '</td>';
     tableHtml += '<td>' + value.MilesBetweenServices + '</td>';
