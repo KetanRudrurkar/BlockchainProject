@@ -7,11 +7,12 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Markup } from 'interweave';
 
 class PartServiceUser extends Component {
     constructor(props) {
         super(props);
-        this.state = { Vin: 123, partsneedservice: [], partsdontneedservice: [], show: false, message: "" }
+        this.state = { Vin: 123, partsneedservice: [], partsdontneedservice: [], show: false, message: "" , carDetailsTable: ""}
         this.retrivepartsinfo = this.retrivepartsinfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.clear = this.clear.bind(this);
@@ -47,9 +48,9 @@ class PartServiceUser extends Component {
             if(receivedobject.message){
             this.setState({message: receivedobject.message, show: false});
             }else{
-
                 this.setState({partsneedservice: [], partsdontneedservice: []})
                 this.setState({partsneedservice: receivedobject.singleData.PartsThatNeedService, partsdontneedservice:receivedobject.singleData.PartsThatDontNeedService, show: true})
+                this.setState({carDetails: receivedobject.carDetails, show: true}) 
             }
         })
     }
@@ -57,6 +58,22 @@ class PartServiceUser extends Component {
         this.setState({show: false, message: ""})
     }
     render() {
+        let displayCarDetails = '<table class="table table-bordered table-striped">';
+        const CarDetails = this.state.carDetails
+        displayCarDetails+='<tr>';
+        for (var key in CarDetails) {
+            if (CarDetails.hasOwnProperty(key)) {
+                displayCarDetails+= '<th>'+key+'</th>';
+            }
+        }
+        displayCarDetails+='</tr><tbody><tr>';
+        for (var key in CarDetails) {
+            if (CarDetails.hasOwnProperty(key)) {
+                displayCarDetails+= '<td>'+CarDetails[key]+'</td>';
+            }
+        }
+        displayCarDetails+= '</tr></tbody></table>';
+        
         const displayuser = this.state.partsneedservice.map((part) => (
                 
                     <Col md="3" sm="6">                            
@@ -83,14 +100,20 @@ class PartServiceUser extends Component {
                 <div>
                     {this.state.partsneedservice.length>0 ?(
                         <div>
+                            <h2>Car Details</h2>
+                            <div style={{ margin: '15px 85px 0 85px', fontFamily:'initial', fontSize:'14px',  overflowX: 'scroll', overflowY: 'hidden'}} >
+                             <Markup content={displayCarDetails} /> 
+                             </div>
                             <h2>Service is recommended for your car in the next 15 days.</h2>
-                    <h3>Your car needs service for the following parts:</h3>
-                    <Container>
+                    <h3 style={{marginLeft: '20px'}}>Your car needs service for the following parts:</h3>
+            <Container>
             <br>
             </br>
+            <div  style={{textAlign:'center'}}>
             <Row>
             {displayuser}
             </Row>
+            </div>
             </Container>
             </div>
                     ) : null }

@@ -459,13 +459,19 @@ app.post("/calculatecarhealth", async (req, res) => {
     {
     console.log("identered", identered);
     await Car.findOne({ CarId: identered }, async function (err, cardata) {
+
         if (err) {
             console.log(err);
         } else {
            console.log(cardata,"after enntering");
             if (cardata != null) {
                 if(cardata.Serviced){
-                    res.json({ cardata: JSON.stringify({ cardata: cardata }), singleData: cardata, message: "" });
+                    var carDetails = JSON.parse(JSON.stringify(cardata));
+                    delete carDetails.PartsThatDontNeedService;
+                    delete carDetails.PartsThatNeedService;
+                    delete carDetails.__v;
+                    //console.log(cardata);
+                    res.json({carDetails: carDetails , singleData: cardata, message: "" });
                 }
                 else{
                     await checkengine(cardata);
@@ -487,13 +493,18 @@ app.post("/calculatecarhealth", async (req, res) => {
                     await loadserviceneededarray(PartsThatNeedService,cardata);
                     await loadservicenotneededarray(PartsThatDontNeedService,cardata);
                     const updateCarData = await Car.findOne({ CarId: identered });
-                    console.log(updateCarData, "final")
-                    res.json({ cardata: JSON.stringify({ cardata: updateCarData }), singleData: updateCarData, message: "" });
+                    //console.log(updateCarData, "final")
+                    var carDetails = JSON.parse(JSON.stringify(updateCarData));
+                    delete carDetails.PartsThatDontNeedService;
+                    delete carDetails.PartsThatNeedService;
+                    delete carDetails.__v;
+                    //console.log(cardata);
+                    res.json({ carDetails: carDetails, singleData: updateCarData, message: "" });
                 }
             }
             else {
                 console.log("in else");
-                res.json({ cardata: null, singleData: null, message: "No Data found for input VIN Number" });
+                res.json({ carDetails: null, singleData: null, message: "No Data found for input VIN Number" });
             }
 
         }
@@ -513,21 +524,25 @@ app.post("/servicecompleted", async (req, res) => {
             if (cardata != null && cardata.Serviced == false) {
                 await postServiceUpdateInfo(cardata.CarId);
                 const updateCarData = await Car.findOne({ CarId: identered });
-                console.log(updateCarData, "Post service final");
-                res.json({ cardata: JSON.stringify({ cardata: updateCarData }), singleData: updateCarData, message: "" });
+                var carDetails = JSON.parse(JSON.stringify(updateCarData));
+                    delete carDetails.PartsThatDontNeedService;
+                    delete carDetails.PartsThatNeedService;
+                    delete carDetails.__v;
+                //console.log(updateCarData, "Post service final");
+                res.json({ carDetails: carDetails, singleData: updateCarData, message: "" });
             }
             else if (cardata.Serviced) {
-                res.json({ cardata: null, singleData: null, message: "VIN - "+identered+" is already serviced on "+cardata.LastServiceDate  });
+                res.json({ carDetails: null, singleData: null, message: "VIN - "+identered+" is already serviced on "+cardata.LastServiceDate  });
             }
             else {
-                res.json({ cardata: null, singleData: null, message: "No Data found for input VIN Number" });
+                res.json({ carDetails: null, singleData: null, message: "No Data found for input VIN Number" });
             }
 
         }
     })
 }
 else{
-    res.render("index", { cardata: null, singleData: null, message: "" });
+    res.render("index", { carDetails: null, singleData: null, message: "" });
 }
 })
 

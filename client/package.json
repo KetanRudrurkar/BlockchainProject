@@ -9,6 +9,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
     "bootstrap": "^4.4.1",
+    "interweave": "^12.5.0",
     "lodash": "^4.17.15",
     "material-ui": "^1.0.0-beta.47",
     "react": "16.11.0",
