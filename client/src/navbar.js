@@ -18,8 +18,8 @@ class Navbar extends Component{
                 <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/carhistory"} activeStyle={{color: "blue"}}>Car History</NavLink></li>
                 <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/deliver"} activeStyle={{color: "blue"}}>Deliver</NavLink></li>
                 <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/receive"} activeStyle={{color: "blue"}}>Receive</NavLink></li> */}
-                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/businessnavbar"} activeStyle={{color: "blue"}}>Business Dashboard</NavLink></li>
-                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/usernavbar"} activeStyle={{color: "blue"}}>User Dashboard</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/businessnavbar"} activeStyle={{color: "cyan"}}>Business Dashboard</NavLink></li>
+                <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/usernavbar"} activeStyle={{color: "cyan"}}>User Dashboard</NavLink></li>
             </nav>
             </header>
             <Role />

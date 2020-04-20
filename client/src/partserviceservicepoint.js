@@ -5,6 +5,7 @@ import { faUserShield } from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Markup } from 'interweave';
 
 class PartServiceServicePoint extends Component {
     constructor(props) {
@@ -48,6 +49,7 @@ class PartServiceServicePoint extends Component {
 
                 this.setState({partsdontneedservice: []})
                 this.setState({partsdontneedservice:receivedobject.singleData.PartsThatDontNeedService, show: true})
+                this.setState({carDetails: receivedobject.carDetails, show: true})
             }
         })
     }
@@ -55,6 +57,22 @@ class PartServiceServicePoint extends Component {
         this.setState({show: false, message: ""})
     }
     render() { 
+        let displayCarDetails = '<table class="table table-bordered table-striped">';
+        const CarDetails = this.state.carDetails
+        displayCarDetails+='<tr>';
+        for (var key in CarDetails) {
+            if (CarDetails.hasOwnProperty(key)) {
+                displayCarDetails+= '<th>'+key+'</th>';
+            }
+        }
+        displayCarDetails+='</tr><tbody><tr>';
+        for (var key in CarDetails) {
+            if (CarDetails.hasOwnProperty(key)) {
+                displayCarDetails+= '<td>'+CarDetails[key]+'</td>';
+            }
+        }
+        displayCarDetails+= '</tr></tbody></table>';
+
         const displayservicecompleted = this.state.partsdontneedservice.map((part) => (
                 
             <Col md="3" sm="6">                            
@@ -72,9 +90,13 @@ class PartServiceServicePoint extends Component {
             { this.state.show? (<div>
               <h3>Parts below are Manually checked, serviced and are healthy now!</h3>
             <br></br>        
-            <Row>
+            <Row style={{marginTop: '-1%', marginBottom: "34px"}}>
             {displayservicecompleted}
-            </Row>   
+            </Row> 
+            <h2>Car Details</h2>
+                            <div style={{ margin: '15px 85px 31px 82px', fontFamily:'initial', fontSize:'14px',  overflowX: 'scroll', overflowY: 'hidden'}} >
+                             <Markup content={displayCarDetails} /> 
+                             </div>     
             </div>) :(
                 <div>
                     <br>

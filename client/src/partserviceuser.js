@@ -100,13 +100,14 @@ class PartServiceUser extends Component {
                 <div>
                     {this.state.partsneedservice.length>0 ?(
                         <div>
-                            <h2>Car Details</h2>
-                            <div style={{ margin: '15px 85px 0 85px', fontFamily:'initial', fontSize:'14px',  overflowX: 'scroll', overflowY: 'hidden'}} >
+                            <h2 style={{color: "coral"}}>Car Details</h2>
+                            <div style={{ margin: '15px 85px 31px 82px', fontFamily:'initial', fontSize:'14px',  overflowX: 'scroll', overflowY: 'hidden'}} >
                              <Markup content={displayCarDetails} /> 
                              </div>
-                            <h2>Service is recommended for your car in the next 15 days.</h2>
+                            <h2 style={{color: "coral"}}>Service is recommended for your car in the next 15 days.</h2>
                     <h3 style={{marginLeft: '20px'}}>Your car needs service for the following parts:</h3>
-            <Container>
+                    
+            <Container style={{marginTop: '2%', marginBottom: "24px"}}>
             <br>
             </br>
             <div  style={{textAlign:'center'}}>
@@ -115,16 +116,26 @@ class PartServiceUser extends Component {
             </Row>
             </div>
             </Container>
+            
             </div>
                     ) : null }
         
             {this.state.partsdontneedservice.length>0 ? (
             <div>
-              <h3>Parts below are healthy and do not need service:</h3>
+                {this.state.partsneedservice.length>0 ? (<div><h3>Parts below are healthy and do not need service:</h3>
             <br></br>        
-            <Row>
+            <Row style={{marginTop: '-1%', marginBottom: "34px"}}>
             {displayservicenotneeded}
-            </Row>   
+            </Row></div> ) : (<div><h3>Parts below are healthy and do not need service:</h3>
+            <br></br>        
+            <Row style={{marginTop: '-1%', marginBottom: "34px"}}>
+            {displayservicenotneeded}
+            </Row>
+            <h2 style={{color: "coral"}}>Car Details</h2>
+            <div style={{ margin: '15px 85px 31px 82px', fontFamily:'initial', fontSize:'14px',  overflowX: 'scroll', overflowY: 'hidden'}} >
+             <Markup content={displayCarDetails} /> 
+             </div></div>
+            )}  
             </div>
            ) : null}
                     

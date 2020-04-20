@@ -12,8 +12,8 @@ class PartsServiceNavbar extends Component {
                 Parts Service Prediction
             
             <nav>
-            <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/usernavbar/partsservicenavbar/user"} activeStyle={{color: "blue"}}>User</NavLink></li>
-            <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/usernavbar/partsservicenavbar/servicepoint"} activeStyle={{color: "blue"}}>Service Point</NavLink></li>
+            <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/usernavbar/partsservicenavbar/user"} activeStyle={{color: "cyan"}}>User</NavLink></li>
+            <li><NavLink className={"tab hvr-shutter-out-horizontal"} to={"/usernavbar/partsservicenavbar/servicepoint"} activeStyle={{color: "cyan"}}>Service Point</NavLink></li>
             </nav>
             </header>
         
