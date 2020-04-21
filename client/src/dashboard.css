@@ -1,0 +1,28 @@
+.flex-container1 {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: whitesmoke;
+}
+
+.flex-container1>div {
+  text-align: center;
+  margin-right: 10px;
+}
+
+.MilesGraph {
+  height: 380px;
+  width: 500px;
+}
+
+.DaysGraph {
+  height: 380px;
+  width: 700px;
+}
+
+.CarDetailsGraph {
+  /* height: 500px; */
+  width: 500px;
+}
