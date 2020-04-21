@@ -95,8 +95,7 @@ class PartServiceUser extends Component {
             <input type="text"  id="id" value={this.state.Vin} onChange={this.handleChange}/>
             <button onClick={this.retrivepartsinfo}>Search Vin</button>
             <button onClick={this.clear}>Clear</button>
-            {this.state.show ? (
-                
+            {this.state.show ? (   
                 <div>
                     {this.state.partsneedservice.length>0 ?(
                         <div>

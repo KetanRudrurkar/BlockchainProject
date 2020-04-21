@@ -5,12 +5,12 @@ var data = [
 
         {
             CarId: 123,
-            MilesTraveled: 60000,
+            MilesTraveled: 45000,
             AverageSpeed: 60,
             CarLifeSpaninYear: 10,
             LastServiceDate: '2019-12-09',
-            MilesDuringLastService: 581000,
-            MilesBetweenServices: 118000,
+            MilesDuringLastService: 31000,
+            MilesBetweenServices: 14000,
             EngineId: 111,
             EngineManufactureDate: '2016-12-09',
             EngineLifeSpaninYears: 91,
@@ -56,7 +56,13 @@ var data = [
             CarServiceNeeded: false,
             Serviced: false,
             PartsThatNeedService: [],
-            PartsThatDontNeedService: []
+            PartsThatDontNeedService: [],
+            carDetailsLabels: ["Miles Travelled", "Miles During Last Service", "Miles Between Services"],
+            CarDetailsValues: [],
+            MilesLabels: ["Brake Fluid", "Brake Roters", "Coolant", "Transmission Fluid","Clutch Plate", "Hoses", "Power Steering Fluid", "Engine Spark Plug", "Timing Belt","Cables"],
+            MilesValues:[],
+            DaysLabels: ["Engine", "Air Filter", "Fuel Filter", "Brake Fluid", "Coolant", "Transmission Fluid", "Gear Box", "Battery"],
+            DaysValues: []
         },{
             CarId: 120,
             MilesTraveled: 60,
@@ -110,7 +116,13 @@ var data = [
             CarServiceNeeded: false,
             Serviced: false,
             PartsThatNeedService: [],
-            PartsThatDontNeedService: []
+            PartsThatDontNeedService: [],
+            carDetailsLabels: ["Miles Travelled", "Miles During Last Service", "Miles Between Services"],
+            CarDetailsValues: [],
+            MilesLabels: ["Brake Fluid", "Brake Roters", "Coolant", "Transmission Fluid","Clutch Plate", "Hoses", "Power Steering Fluid", "Engine Spark Plug", "Timing Belt","Cables"],
+            MilesValues:[],
+            DaysLabels: ["Engine", "Air Filter", "Fuel Filter", "Brake Fluid", "Coolant", "Transmission Fluid","Gear Box", "Battery"],
+            DaysValues: []
         },
         {
             CarId: 109,
@@ -165,7 +177,13 @@ var data = [
             CarServiceNeeded: false,
             Serviced: false,
             PartsThatNeedService: [],
-            PartsThatDontNeedService: []
+            PartsThatDontNeedService: [],
+            carDetailsLabels: ["Miles Travelled", "Miles During Last Service", "Miles Between Services"],
+            CarDetailsValues: [],
+            MilesLabels: ["Brake Fluid", "Brake Roters", "Coolant", "Transmission Fluid","Clutch Plate", "Hoses", "Power Steering Fluid", "Engine Spark Plug", "Timing Belt","Cables"],
+            MilesValues:[],
+            DaysLabels: ["Engine", "Air Filter", "Fuel Filter", "Brake Fluid", "Coolant", "Transmission Fluid","Gear Box", "Battery"],
+            DaysValues: []
         },{
             CarId: 106,
             MilesTraveled: 1000,
@@ -219,7 +237,13 @@ var data = [
             CarServiceNeeded: false,
             Serviced: false,
             PartsThatNeedService: [],
-            PartsThatDontNeedService: []
+            PartsThatDontNeedService: [],
+            carDetailsLabels: ["Miles Travelled", "Miles During Last Service", "Miles Between Services"],
+            CarDetailsValues: [],
+            MilesLabels: ["Brake Fluid", "Brake Roters", "Coolant", "Transmission Fluid","Clutch Plate", "Hoses", "Power Steering Fluid", "Engine Spark Plug", "Timing Belt","Cables"],
+            MilesValues:[],
+            DaysLabels: ["Engine", "Air Filter", "Fuel Filter", "Brake Fluid", "Coolant","Transmission Fluid", "Gear Box", "Battery"],
+            DaysValues: []
         }
 ]
  

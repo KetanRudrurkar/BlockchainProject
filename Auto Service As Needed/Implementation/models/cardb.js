@@ -52,7 +52,13 @@ var cardbschema = new mongoose.Schema({
             CarServiceNeeded: Boolean,
             Serviced: Boolean,
             PartsThatNeedService: Array,
-            PartsThatDontNeedService: Array
+            PartsThatDontNeedService: Array,
+            carDetailsLabels: Array,
+            CarDetailsValues: Array,
+            MilesLabels: Array,
+            MilesValues: Array,
+            DaysLabels: Array,
+            DaysValues: Array
 });
 
 module.exports = mongoose.model("Cardb", cardbschema);

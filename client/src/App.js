@@ -8,6 +8,7 @@ import Manufacture from "./manufacture";
 import Deliver from "./deliver";
 // import './deliver.css';
 import Mapping from './mapping';
+import Dashboard from './dashboard';
 // import './mapping.css';
 import Receive from './receive';
 import BuyCar from './buycar';
@@ -24,7 +25,7 @@ import './navbar.css';
 
 import "./App.css";
 
-import getWeb3 from "./getWeb3";
+import getWeb3 from "./getWeb3";  
 
 // import "./App.css";
 
@@ -249,6 +250,7 @@ carowners = async() => {
           {/* <Route exact path='/navbar' render={(props) => <Role />}/> */}
           <Route path='/businessnavbar' render={(props) => <BusinessNavbar />} />
           <Route path='/usernavbar' render={(props) => <UserNavbar />} />
+          <Route path='/usernavbar/dashboard' render={(props) => <Dashboard />} />
           {/* <Route exact path='/' render={(props) => <Manufacture manufactureengine = {this.manufactureengine} manufacturebattery = {this.manufacturebattery} typinginput={this.typinginput} engine={this.state.engine} battery={this.state.battery}/>}/> */}
           <Route path='/businessnavbar/manufacture' render={(props) => <Manufacture manufactureengine = {this.manufactureengine} engineobject={this.engineobject} manufacturebattery = {this.manufacturebattery} typinginput={this.typinginput} engine={this.state.engine} battery={this.state.battery}/>}/>
           <Route path='/businessnavbar/deliver' render={(props) => <Deliver deliverengine = {this.deliverengine} deliverbattery={this.deliverbattery} typinginput= {this.typinginput} engine={this.state.engine} battery={this.state.battery}/> }/>

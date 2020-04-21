@@ -14,6 +14,9 @@ seed();
 allparts = ["Engine", "Air Filter", "Fuel Filter", "brake fluid", "brake pads/shoes", "brake roters", "coolant", "Transmission fluid", "Gear box", "Clutch plate", "hoses", "Power Steering fluid", "Engine Spark Plug", "Timing belt" ]
 PartsThatNeedService = []
 PartsThatDontNeedService = []
+CarDetailsValues = []
+MilesValues = []
+DaysValues = []
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -26,6 +29,18 @@ app.get("/", (req, res) => {
 async function checkengine(data) {
     var servicerecommendedindays = 180;
     var servicerecommendedinmiles = 7500;
+    while(CarDetailsValues.length > 0) {
+        // console.log("clearing Array 1")
+        CarDetailsValues.pop();
+    }
+    while(DaysValues.length > 0) {
+        // console.log("clearing Array 1")
+        DaysValues.pop();
+    }
+    CarDetailsValues.push(data.MilesTraveled);
+    CarDetailsValues.push(data.MilesDuringLastService);
+    CarDetailsValues.push(data.MilesBetweenServices);
+    DaysValues.push(data.DaysSinceEngineLastService)
     var daysscore = 10 - ((data.DaysSinceEngineLastService * 10) / servicerecommendedindays);
     // console.log("engine age rating is", enginedaysscore);
     var milesscore = 10 - ((data.MilesBetweenServices * 10) / servicerecommendedinmiles);
@@ -50,15 +65,15 @@ async function checkengine(data) {
         updateParam = { EngineServiceNeeded: true, CarServiceNeeded: true, Serviced: false }
         needUpdate = await updateCarInfoById(updateParam, data._id)
         while(PartsThatNeedService.length > 0) {
-            console.log("clearing Array 1")
+            //console.log("clearing Array 1")
             PartsThatNeedService.pop();
         }
         while(PartsThatDontNeedService.length > 0) {
-            console.log("clearing Array 1")
+            //console.log("clearing Array 1")
             PartsThatDontNeedService.pop();
         }
         PartsThatNeedService.push("Engine");
-        console.log(data, "TO check array");
+        //console.log(data, "TO check array");
     }
     else{
         while(PartsThatNeedService.length > 0) {
@@ -74,6 +89,7 @@ async function checkengine(data) {
 async function checkairfilter(data) {
     var servicerecommendedindays = 1095;
     var servicerecommendedinmiles = 20000;
+    DaysValues.push(data.AirFilterDaysOld)
     var daysscore = 10 - ((data.AirFilterDaysOld * 10) / servicerecommendedindays);
     // console.log("engine age rating is", enginedaysscore);
     var milesscore = 10 - ((data.MilesBetweenServices * 10) / servicerecommendedinmiles);
@@ -83,7 +99,7 @@ async function checkairfilter(data) {
         updateParam = { AirFilterServiceNeeded: true, CarServiceNeeded: true, Serviced: false }
         needUpdate = await updateCarInfoById(updateParam, data._id)
         PartsThatNeedService.push("Air Filter");
-        console.log(data, "TO check array");
+        //console.log(data, "TO check array");
     }
     else{
         PartsThatDontNeedService.push("Air Filter");
@@ -93,6 +109,7 @@ async function checkairfilter(data) {
 async function checkfuelfilter(data) {
     var servicerecommendedindays = 730;
     var servicerecommendedinmiles = 30000;
+    DaysValues.push(data.FuelFilterDaysOld)
     var daysscore = 10 - ((data.FuelFilterDaysOld * 10) / servicerecommendedindays);
     // console.log("engine age rating is", enginedaysscore);
     var milesscore = 10 - ((data.MilesBetweenServices * 10) / servicerecommendedinmiles);
@@ -112,6 +129,12 @@ async function checkfuelfilter(data) {
 async function checkbreakfluid(data) {
     var servicerecommendedindays = 730;
     var servicerecommendedinmiles = 24000;
+    DaysValues.push(data.BrakeFluidDaysOld)
+    while(MilesValues.length > 0) {
+        // console.log("clearing Array 1")
+        MilesValues.pop();
+    }
+    MilesValues.push(data.BrakeFluidMilesUsed);
     var daysscore = 10 - ((data.BrakeFluidDaysOld * 10) / servicerecommendedindays);
     // console.log("engine age rating is", enginedaysscore);
     var milesscore = 10 - ((data.BrakeFluidMilesUsed * 10) / servicerecommendedinmiles);
@@ -144,6 +167,7 @@ async function checkbreakpads(data) {
 
 async function checkbreakroters(data) {
     var servicerecommendedinmiles = 50000;    
+    MilesValues.push(data.BrakeRotersMilesUsed);
     if (data.BrakeRotersMilesUsed > servicerecommendedinmiles) {
         updateParam = { BrakeRotersServiceNeeded: true, CarServiceNeeded: true, Serviced: false }
         needUpdate = await updateCarInfoById(updateParam, data._id)
@@ -158,6 +182,8 @@ async function checkbreakroters(data) {
 async function checkcoolant(data) {
     var servicerecommendedindays = 1460;
     var servicerecommendedinmiles = 60000;
+    DaysValues.push(data.CoolantDaysOld)
+    MilesValues.push(data.CoolantMilesUsed);
     var daysscore = 10 - ((data.CoolantDaysOld * 10) / servicerecommendedindays);
     // console.log("engine age rating is", enginedaysscore);
     var milesscore = 10 - ((data.CoolantMilesUsed * 10) / servicerecommendedinmiles);
@@ -177,6 +203,8 @@ async function checkcoolant(data) {
 async function checktransmissionfluid(data) {
     var servicerecommendedindays = 2555;
     var servicerecommendedinmiles = 100000;
+    DaysValues.push(data.TransmissionFluidDaysOld)
+    MilesValues.push(data.TransmissionFluidMilesUsed);
     var daysscore = 10 - ((data.TransmissionFluidDaysOld * 10) / servicerecommendedindays);
     // console.log("engine age rating is", enginedaysscore);
     var milesscore = 10 - ((data.TransmissionFluidMilesUsed * 10) / servicerecommendedinmiles);
@@ -196,6 +224,7 @@ async function checktransmissionfluid(data) {
 async function checkgearbox(data) {
     var servicerecommendedindays = 2555;
     var servicerecommendedinmiles = 10000;
+    DaysValues.push(data.DaysSinceGearBoxLastService)
     var daysscore = 10 - ((data.DaysSinceGearBoxLastService * 10) / servicerecommendedindays);
     // console.log("engine age rating is", enginedaysscore);
     var milesscore = 10 - ((data.MilesBetweenServices * 10) / servicerecommendedinmiles);
@@ -214,6 +243,7 @@ async function checkgearbox(data) {
 
 async function checkclutchplate(data) {
     var servicerecommendedinmiles = 60000;
+    MilesValues.push(data.ClutchPlateMilesUsed);
     if(data.TransmissionFluidTemperature>=70 && data.TransmissionFluidTemperature<=80 ){
         var temperaturescore = 10
     }
@@ -244,6 +274,7 @@ async function checkclutchplate(data) {
 
 async function checkhoses(data) {
     var servicerecommendedinmiles = 100000;    
+    MilesValues.push(data.HosesMilesUsed);
     if (data.HosesMilesUsed > servicerecommendedinmiles) {
         updateParam = { HosesServiceNeeded: true, CarServiceNeeded: true, Serviced: false }
         needUpdate = await updateCarInfoById(updateParam, data._id)
@@ -257,6 +288,7 @@ async function checkhoses(data) {
 
 async function checkpowersteeringfluid(data) {
     var servicerecommendedinmiles = 90000;    
+    MilesValues.push(data.PowerSteeringFluidMilesUsed);
     if (data.PowerSteeringFluidMilesUsed > servicerecommendedinmiles) {
         updateParam = { PowerSteeringServiceNeeded: true, CarServiceNeeded: true, Serviced: false }
         needUpdate = await updateCarInfoById(updateParam, data._id)
@@ -269,6 +301,7 @@ async function checkpowersteeringfluid(data) {
 }
 
 async function checkenginesparkplug(data) {
+    MilesValues.push(data.EngineSparkPlugMilesUsed);
     if(data.EngineSparkPlugType == "Platinum" || data.EngineSparkPlugType =="Iridium"){
         var servicerecommendedinmiles = 100000;    
     }
@@ -287,7 +320,8 @@ async function checkenginesparkplug(data) {
 }
 
 async function checktimingbelt(data) {
-    var servicerecommendedinmiles = 90000;    
+    var servicerecommendedinmiles = 90000;
+    MilesValues.push(data.TimingBeltMilesUsed);    
     if (data.TimingBeltMilesUsed > servicerecommendedinmiles) {
         updateParam = { TimingBeltServiceNeeded: true, CarServiceNeeded: true, Serviced: false }
         needUpdate = await updateCarInfoById(updateParam, data._id)
@@ -300,7 +334,8 @@ async function checktimingbelt(data) {
 }
 
 async function checkcable(data) {
-    var servicerecommendedinmiles = 100000;    
+    var servicerecommendedinmiles = 100000;  
+    MilesValues.push(data.CableMilesUsed);  
     if (data.CableMilesUsed > servicerecommendedinmiles) {
         updateParam = { CabelServiceNeeded: true, CarServiceNeeded: true, Serviced: false}
         needUpdate = await updateCarInfoById(updateParam, data._id)
@@ -314,6 +349,7 @@ async function checkcable(data) {
 
 async function checkbattery(data) {
     var servicerecommendedindays = 1460;
+    DaysValues.push(data.BatteryDaysOld)
     if(data.TransmissionFluidTemperature>=70 && data.TransmissionFluidTemperature<=80 ){
         var temperaturescore = 10
     }
@@ -350,7 +386,7 @@ async function checkbattery(data) {
         updateParam = { BatteryServiceNeeded: true, CarServiceNeeded: true, Serviced: false}
         needUpdate = await updateCarInfoById(updateParam, data._id)
         PartsThatNeedService.push("Battery");
-        console.log(data, "TO check array");
+        //console.log(data, "TO check array");
     }
     else{
         PartsThatDontNeedService.push("Battery");
@@ -364,6 +400,21 @@ async function loadserviceneededarray(array, data){
 
 async function loadservicenotneededarray(array, data){
     update ={$addToSet: { PartsThatDontNeedService: array }}
+    needUpdate = await updateCarInfoById(update, data._id)
+}
+
+async function loadcardetailsarray(array, data){
+    update ={$addToSet: { CarDetailsValues: array }}
+    needUpdate = await updateCarInfoById(update, data._id)
+}
+
+async function loadmilesvaluesarray(array, data){
+    update ={$addToSet: { MilesValues: array }}
+    needUpdate = await updateCarInfoById(update, data._id)
+}
+
+async function loaddaysvaluesarray(array, data){
+    update ={$addToSet: { DaysValues: array }}
     needUpdate = await updateCarInfoById(update, data._id)
 }
 
@@ -492,8 +543,11 @@ app.post("/calculatecarhealth", async (req, res) => {
                     await checkbattery(cardata);
                     await loadserviceneededarray(PartsThatNeedService,cardata);
                     await loadservicenotneededarray(PartsThatDontNeedService,cardata);
+                    await loadcardetailsarray(CarDetailsValues,cardata);
+                    await loadmilesvaluesarray(MilesValues, cardata);
+                    await loaddaysvaluesarray(DaysValues, cardata);
                     const updateCarData = await Car.findOne({ CarId: identered });
-                    //console.log(updateCarData, "final")
+                    console.log(updateCarData, "final")
                     var carDetails = JSON.parse(JSON.stringify(updateCarData));
                     delete carDetails.PartsThatDontNeedService;
                     delete carDetails.PartsThatNeedService;
@@ -503,7 +557,7 @@ app.post("/calculatecarhealth", async (req, res) => {
                 }
             }
             else {
-                console.log("in else");
+                //console.log("in else");
                 res.json({ carDetails: null, singleData: null, message: "No Data found for input VIN Number" });
             }
 
@@ -518,7 +572,7 @@ app.post("/servicecompleted", async (req, res) => {
     {
     await Car.findOne({ CarId: identered }, async function (err, cardata) {
         if (err) {
-            console.log(err);
+            //console.log(err);
         } 
         else {       
             if (cardata != null && cardata.Serviced == false) {
