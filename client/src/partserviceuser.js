@@ -12,7 +12,7 @@ import { Markup } from 'interweave';
 class PartServiceUser extends Component {
     constructor(props) {
         super(props);
-        this.state = { Vin: 123, partsneedservice: [], partsdontneedservice: [], show: false, message: "" , carDetailsTable: ""}
+        this.state = { Vin: "", partsneedservice: [], partsdontneedservice: [], show: false, message: "" , carDetailsTable: ""}
         this.retrivepartsinfo = this.retrivepartsinfo.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.clear = this.clear.bind(this);

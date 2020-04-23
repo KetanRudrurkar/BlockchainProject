@@ -10,7 +10,7 @@ import { Markup } from 'interweave';
 class PartServiceServicePoint extends Component {
     constructor(props) {
         super(props);
-        this.state = { Vin: 123, partsdontneedservice: [] ,show: false, message: ""}
+        this.state = { Vin: "", partsdontneedservice: [] ,show: false, message: ""}
         this.serviceparts = this.serviceparts.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.clear = this.clear.bind(this);

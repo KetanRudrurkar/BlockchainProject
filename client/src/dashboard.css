@@ -23,6 +23,9 @@
 }
 
 .CarDetailsGraph {
-  /* height: 500px; */
-  width: 500px;
+  display: block;
+  height: 300px;
+  width: 600px;
+  margin-top: 22px;
+  margin-left: 16px;
 }

@@ -551,6 +551,12 @@ app.post("/calculatecarhealth", async (req, res) => {
                     var carDetails = JSON.parse(JSON.stringify(updateCarData));
                     delete carDetails.PartsThatDontNeedService;
                     delete carDetails.PartsThatNeedService;
+                    delete carDetails.carDetailsLabels;
+                    delete carDetails.CarDetailsValues;
+                    delete carDetails.MilesLabels;
+                    delete carDetails.MilesValues;
+                    delete carDetails.DaysLabels;
+                    delete carDetails.DaysValues;
                     delete carDetails.__v;
                     //console.log(cardata);
                     res.json({ carDetails: carDetails, singleData: updateCarData, message: "" });

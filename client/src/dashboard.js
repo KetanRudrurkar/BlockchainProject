@@ -57,7 +57,7 @@ class Dashboard extends Component {
                 labels: [],
                 datasets: [
                     {
-                        label: 'Days since last service',
+                        label: '',
                         data: [
 
                         ],
@@ -179,7 +179,7 @@ class Dashboard extends Component {
                                     fontSize: 20
                                 },
                                 legend: {
-                                    display: this.props.displayLegend,
+                                    display: false,
                                     position: this.props.legendPosition
                                 },
                                 responsive: true,
